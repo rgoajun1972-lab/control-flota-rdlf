@@ -116,39 +116,39 @@
 		</div>
 	{:else}
 		<div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-			<table class="w-full text-sm">
-				<thead class="bg-slate-100 text-left text-xs font-semibold text-slate-600 uppercase">
+			<table class="w-full text-sm select-none">
+				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase">
 					<tr>
-						<th class="px-3 py-3">Patente</th>
-						<th class="px-3 py-3">Área</th>
-						<th class="px-3 py-3">Marca · Modelo</th>
-						<th class="px-3 py-3">Año</th>
-						<th class="px-3 py-3">Leasing</th>
-						<th class="px-3 py-3">Responsable</th>
-						<th class="px-3 py-3">Chevron</th>
-						<th class="px-3 py-3">Fecha alta</th>
-						<th class="px-3 py-3">Estado</th>
-						<th class="px-3 py-3 text-right">Acciones</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Patente</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Área</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Marca · Modelo</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Año</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Leasing</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Responsable</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Chevron</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Fecha alta</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Estado</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100">
 					{#each filtrados as m (m.id)}
 						<tr class="hover:bg-slate-50">
-							<td class="px-3 py-3 font-mono font-semibold">{m.patente}</td>
-							<td class="px-3 py-3">{m.area ?? '—'}</td>
-							<td class="px-3 py-3">{[m.marca, m.modelo].filter(Boolean).join(' ') || '—'}</td>
-							<td class="px-3 py-3">{m.anio ?? '—'}</td>
-							<td class="px-3 py-3">{m.leasing ?? '—'}</td>
-							<td class="px-3 py-3">{m.responsable ?? '—'}</td>
-							<td class="px-3 py-3">{m.chevron ?? '—'}</td>
-							<td class="px-3 py-3 text-xs text-slate-500">{formatFechaDMY(m.fecha_alta)}</td>
-							<td class="px-3 py-3">
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap font-mono font-semibold">{m.patente}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.area ?? '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{[m.marca, m.modelo].filter(Boolean).join(' ') || '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.anio ?? '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.leasing ?? '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.responsable ?? '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.chevron ?? '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap text-xs text-slate-500">{formatFechaDMY(m.fecha_alta)}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">
 								<span class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium {colorEstado(m.estado)}">
 									● {m.estado}
 								</span>
 							</td>
-							<td class="px-3 py-3 text-right whitespace-nowrap">
-								<button class="rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-200 hover:text-slate-900"
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">
+								<button class="rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-200 hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed"
 									title="Editar" onclick={() => abrirEdicion(m)} disabled={m.estado === 'En taller'}>
 									✎ Editar
 								</button>

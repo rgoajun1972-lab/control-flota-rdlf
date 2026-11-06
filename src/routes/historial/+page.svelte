@@ -172,38 +172,38 @@
 		</div>
 	{:else}
 		<div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-			<table class="w-full text-sm">
-				<thead class="bg-slate-100 text-left text-xs font-semibold text-slate-600 uppercase">
+			<table class="w-full text-sm select-none">
+				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase">
 					<tr>
-						<th class="px-3 py-3">#</th>
-						<th class="px-3 py-3">Móvil</th>
-						<th class="px-3 py-3">Taller</th>
-						<th class="px-3 py-3">Tipo</th>
-						<th class="px-3 py-3">Motivo</th>
-						<th class="px-3 py-3">Ingreso a taller</th>
-						<th class="px-3 py-3">Salida de taller</th>
-						<th class="px-3 py-3">Días en taller</th>
-						<th class="px-3 py-3">Reemplazo</th>
-						<th class="px-3 py-3">Estado</th>
-						<th class="px-3 py-3 text-right">Acciones</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">#</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Móvil</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Taller</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Tipo</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Motivo</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Ingreso a taller</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Salida de taller</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Días en taller</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Reemplazo</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Estado</th>
+						<th class="px-3 py-3 text-center whitespace-nowrap">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100">
 					{#each filtrados as r (r.id)}
 						<tr class="hover:bg-slate-50 {colorEstado(r)}">
-							<td class="px-3 py-3 font-mono text-xs">{r.id}</td>
-							<td class="px-3 py-3 font-mono font-semibold">{r.moviles?.patente ?? `#${r.movil_id}`}</td>
-							<td class="px-3 py-3">{r.taller}</td>
-							<td class="px-3 py-3">{r.tipo ?? '—'}</td>
-							<td class="px-3 py-3">{r.motivo ?? '—'}</td>
-							<td class="px-3 py-3">{formatFechaDMY(r.fecha_ingreso)}</td>
-							<td class="px-3 py-3">{formatFechaDMY(r.fecha_salida_real) || '—'}</td>
-							<td class="px-3 py-3 text-center">
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap font-mono text-xs">{r.id}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap font-mono font-semibold">{r.moviles?.patente ?? `#${r.movil_id}`}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{r.taller}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{r.tipo ?? '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{r.motivo ?? '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_ingreso)}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_salida_real) || '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">
 								{diasEntre(r.fecha_ingreso, r.fecha_salida_real) ?? '—'}
 							</td>
-							<td class="px-3 py-3">{r.reemplazo?.patente ?? '—'}</td>
-							<td class="px-3 py-3 whitespace-nowrap">{estadoTexto(r)}</td>
-							<td class="px-3 py-3 text-right">
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{r.reemplazo?.patente ?? '—'}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{estadoTexto(r)}</td>
+							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">
 								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100"
 									onclick={() => eliminar(r)}>Eliminar de historial</button>
 							</td>
