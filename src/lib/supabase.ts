@@ -1,7 +1,13 @@
 ﻿import { createClient } from '@supabase/supabase-js';
-import { env } from '$env/dynamic/public';
 
-export const supabase = createClient(env.PUBLIC_SUPABASE_URL, env.PUBLIC_SUPABASE_ANON_KEY);
+// Credenciales de Supabase embebidas directamente. Son valores PÚBLICOS
+// (anon key): la autorización se gestiona con RLS del lado de la base, no
+// escondiendo la clave. Esto evita problemas de inyección de env vars en
+// una SPA estática servida por Vercel.
+const SUPABASE_URL = 'https://ftxpggpdbdwwpkpgwyjz.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_NiByTzmH526VsR8tGlfxAA_cfdbHFxA';
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Constantes de dominio (reusadas del programa local)
 export const AREAS = [
