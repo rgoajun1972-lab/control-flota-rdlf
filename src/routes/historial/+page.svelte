@@ -171,41 +171,38 @@
 			No hay envíos que coincidan con los filtros.
 		</div>
 	{:else}
-		<div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-			<table class="w-full text-sm select-none">
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm">
+			<table class="w-full text-sm table-fixed select-none">
 				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase">
 					<tr>
-						<th class="px-3 py-3 text-center whitespace-nowrap">#</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Móvil</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Taller</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Tipo</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Motivo</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Ingreso a taller</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Salida de taller</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Días en taller</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Reemplazo</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Estado</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Acciones</th>
+						<th class="px-2 py-3 text-center w-12">#</th>
+						<th class="px-2 py-3 text-center">Móvil</th>
+						<th class="px-2 py-3 text-center">Taller</th>
+						<th class="px-2 py-3 text-center">Tipo</th>
+						<th class="px-2 py-3 text-center">Motivo</th>
+						<th class="px-2 py-3 text-center w-24">Ingreso</th>
+						<th class="px-2 py-3 text-center w-24">Salida</th>
+						<th class="px-2 py-3 text-center w-16">Días</th>
+						<th class="px-2 py-3 text-center">Reemplazo</th>
+						<th class="px-2 py-3 text-center">Estado</th>
+						<th class="px-2 py-3 text-center">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100">
 					{#each filtrados as r (r.id)}
 						<tr class="hover:bg-slate-50 {colorEstado(r)}">
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap font-mono text-xs">{r.id}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap font-mono font-semibold">{r.moviles?.patente ?? `#${r.movil_id}`}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{r.taller}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{r.tipo ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{r.motivo ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_ingreso)}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_salida_real) || '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">
-								{diasEntre(r.fecha_ingreso, r.fecha_salida_real) ?? '—'}
-							</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{r.reemplazo?.patente ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{estadoTexto(r)}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">
-								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100"
-									onclick={() => eliminar(r)}>Eliminar de historial</button>
+							<td class="px-2 py-3 text-center align-middle font-mono text-xs">{r.id}</td>
+							<td class="px-2 py-3 text-center align-middle font-mono font-semibold break-words">{r.moviles?.patente ?? `#${r.movil_id}`}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{r.taller}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{r.tipo ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{r.motivo ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_ingreso)}</td>
+							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_salida_real) || '—'}</td>
+							<td class="px-2 py-3 text-center align-middle">{diasEntre(r.fecha_ingreso, r.fecha_salida_real) ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{r.reemplazo?.patente ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{estadoTexto(r)}</td>
+							<td class="px-2 py-3 text-center align-middle">
+								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100" title="Eliminar de historial" onclick={() => eliminar(r)}>🗑</button>
 							</td>
 						</tr>
 					{/each}

@@ -115,51 +115,47 @@
 			No hay móviles que coincidan con los filtros.
 		</div>
 	{:else}
-		<div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-			<table class="w-full text-sm select-none">
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm">
+			<table class="w-full text-sm table-fixed select-none">
 				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase">
 					<tr>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Patente</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Área</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Marca · Modelo</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Año</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Leasing</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Responsable</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Chevron</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Fecha alta</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Estado</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Acciones</th>
+						<th class="px-2 py-3 text-center">Patente</th>
+						<th class="px-2 py-3 text-center">Área</th>
+						<th class="px-2 py-3 text-center">Marca · Modelo</th>
+						<th class="px-2 py-3 text-center w-14">Año</th>
+						<th class="px-2 py-3 text-center">Leasing</th>
+						<th class="px-2 py-3 text-center">Responsable</th>
+						<th class="px-2 py-3 text-center w-20">Chevron</th>
+						<th class="px-2 py-3 text-center w-24">Fecha alta</th>
+						<th class="px-2 py-3 text-center">Estado</th>
+						<th class="px-2 py-3 text-center">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100">
 					{#each filtrados as m (m.id)}
 						<tr class="hover:bg-slate-50">
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap font-mono font-semibold">{m.patente}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.area ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{[m.marca, m.modelo].filter(Boolean).join(' ') || '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.anio ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.leasing ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.responsable ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{m.chevron ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap text-xs text-slate-500">{formatFechaDMY(m.fecha_alta)}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">
-								<span class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium {colorEstado(m.estado)}">
+							<td class="px-2 py-3 text-center align-middle font-mono font-semibold break-words">{m.patente}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{m.area ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{[m.marca, m.modelo].filter(Boolean).join(' ') || '—'}</td>
+							<td class="px-2 py-3 text-center align-middle">{m.anio ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{m.leasing ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{m.responsable ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle">{m.chevron ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle text-xs text-slate-500 whitespace-nowrap">{formatFechaDMY(m.fecha_alta)}</td>
+							<td class="px-2 py-3 text-center align-middle">
+								<span class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium whitespace-nowrap {colorEstado(m.estado)}">
 									● {m.estado}
 								</span>
 							</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">
-								<button class="rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-200 hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed"
-									title="Editar" onclick={() => abrirEdicion(m)} disabled={m.estado === 'En taller'}>
-									✎ Editar
-								</button>
-								<button class="rounded-md px-2 py-1 text-xs text-amber-700 hover:bg-amber-100"
-									title="Enviar a taller" onclick={() => enviarATaller(m)}>
-									🔧 Taller
-								</button>
-								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100"
-									title="Eliminar" onclick={() => eliminar(m)}>
-									🗑 Eliminar
-								</button>
+							<td class="px-2 py-3 text-center align-middle">
+								<div class="inline-flex flex-wrap justify-center gap-1">
+									<button class="rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-200 hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed"
+										title="Editar" onclick={() => abrirEdicion(m)} disabled={m.estado === 'En taller'}>✎</button>
+									<button class="rounded-md px-2 py-1 text-xs text-amber-700 hover:bg-amber-100"
+										title="Enviar a taller" onclick={() => enviarATaller(m)}>🔧</button>
+									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100"
+										title="Eliminar" onclick={() => eliminar(m)}>🗑</button>
+								</div>
 							</td>
 						</tr>
 					{/each}

@@ -32,7 +32,7 @@
 
 <div class="min-h-screen bg-slate-50 text-slate-800" style="font-family: Inter, system-ui, sans-serif;">
 	<header class="border-b border-slate-200 bg-white">
-		<div class="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-6 py-5">
+		<div class="mx-auto flex w-full flex-wrap items-center gap-6 px-6 py-5">
 			<div class="flex items-baseline gap-3">
 				<span class="font-brand text-3xl text-sky-900">Control de Flota</span>
 				<span class="hidden text-sm text-slate-500 sm:inline">· Ruta de la Fruta</span>
@@ -61,7 +61,7 @@
 		</div>
 	</header>
 
-	<main class="mx-auto max-w-7xl px-6 py-6">
+	<main class="w-full px-6 py-6">
 		{@render children()}
 	</main>
 </div>

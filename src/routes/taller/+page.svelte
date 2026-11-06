@@ -106,20 +106,20 @@
 			No hay envíos activos.
 		</div>
 	{:else}
-		<div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-			<table class="w-full text-sm select-none">
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm">
+			<table class="w-full text-sm table-fixed select-none">
 				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase">
 					<tr>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Móvil</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Taller</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Tipo</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Motivo</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">F. envío</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Días en taller</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Reemplazo</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Llegada rep.</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">TCT</th>
-						<th class="px-3 py-3 text-center whitespace-nowrap">Acciones</th>
+						<th class="px-2 py-3 text-center">Móvil</th>
+						<th class="px-2 py-3 text-center">Taller</th>
+						<th class="px-2 py-3 text-center">Tipo</th>
+						<th class="px-2 py-3 text-center">Motivo</th>
+						<th class="px-2 py-3 text-center w-24">F. envío</th>
+						<th class="px-2 py-3 text-center w-20">Días</th>
+						<th class="px-2 py-3 text-center">Reemplazo</th>
+						<th class="px-2 py-3 text-center w-24">Llegada rep.</th>
+						<th class="px-2 py-3 text-center w-14">TCT</th>
+						<th class="px-2 py-3 text-center">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100">
@@ -127,22 +127,21 @@
 						{@const dias = diasEntre(e.fecha_ingreso, null) ?? 0}
 						{@const rojo = dias > 30}
 						<tr class="hover:bg-slate-50 {rojo ? 'text-red-700' : 'text-amber-700'}">
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap font-mono font-semibold">{e.moviles?.patente ?? `#${e.movil_id}`}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{e.taller}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{e.tipo ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{e.motivo ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(e.fecha_ingreso)}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{dias}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{e.reemplazo?.patente ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(e.reemplazo_fecha_llegada) || '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">{e.reemplazo_tct ?? '—'}</td>
-							<td class="px-3 py-3 text-center align-middle whitespace-nowrap">
-								<button class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200"
-									onclick={() => abrirEdicion(e)}>✎ Editar</button>
-								<button class="rounded-md px-2 py-1 text-xs text-emerald-700 hover:bg-emerald-100"
-									onclick={() => marcarSalida(e)}>✓ Marcar salida</button>
-								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100"
-									onclick={() => eliminarEnvio(e)}>🗑</button>
+							<td class="px-2 py-3 text-center align-middle font-mono font-semibold break-words">{e.moviles?.patente ?? `#${e.movil_id}`}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{e.taller}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{e.tipo ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{e.motivo ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(e.fecha_ingreso)}</td>
+							<td class="px-2 py-3 text-center align-middle">{dias}</td>
+							<td class="px-2 py-3 text-center align-middle break-words">{e.reemplazo?.patente ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(e.reemplazo_fecha_llegada) || '—'}</td>
+							<td class="px-2 py-3 text-center align-middle">{e.reemplazo_tct ?? '—'}</td>
+							<td class="px-2 py-3 text-center align-middle">
+								<div class="inline-flex flex-wrap justify-center gap-1">
+									<button class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200" title="Editar" onclick={() => abrirEdicion(e)}>✎</button>
+									<button class="rounded-md px-2 py-1 text-xs text-emerald-700 hover:bg-emerald-100" title="Marcar salida" onclick={() => marcarSalida(e)}>✓</button>
+									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100" title="Eliminar" onclick={() => eliminarEnvio(e)}>🗑</button>
+								</div>
 							</td>
 						</tr>
 					{/each}
