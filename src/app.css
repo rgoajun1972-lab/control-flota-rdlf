@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+
+:root {
+	color-scheme: light dark;
+}
+
+/* Fuente serif italic elegante para el título, coherente con la versión local */
+.font-brand {
+	font-family: 'Playfair Display', 'Didot', 'Bodoni MT', 'Palatino Linotype',
+		'Book Antiqua', 'Georgia', serif;
+	font-style: italic;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+}
+
+/* Scrollbar sutil */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.5); }
