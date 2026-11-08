@@ -74,8 +74,8 @@
 <div class="space-y-5">
 	<div class="flex flex-wrap items-center justify-between gap-3">
 		<div>
-			<h1 class="text-2xl font-semibold text-slate-900">Taller</h1>
-			<p class="text-sm text-slate-500">Envíos activos — móviles en taller ahora</p>
+			<h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">Taller</h1>
+			<p class="text-sm text-slate-500 dark:text-slate-400">Envíos activos — móviles en taller ahora</p>
 		</div>
 		<button onclick={abrirNuevo}
 			class="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700">
@@ -83,32 +83,32 @@
 		</button>
 	</div>
 
-	<div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-		<label class="text-sm text-slate-600">
+	<div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+		<label class="text-sm text-slate-600 dark:text-slate-300">
 			Tipo:
 			<select bind:value={f_tipo}
-				class="ml-2 rounded-lg border border-slate-200 px-2 py-1 text-sm">
+				class="ml-2 rounded-lg border border-slate-200 bg-white px-2 py-1 text-sm text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
 				<option value="Todos">Todos</option>
 				{#each TIPOS_ENVIO as t (t)}<option value={t}>{t}</option>{/each}
 			</select>
 		</label>
-		<span class="ml-auto text-sm text-slate-500">
+		<span class="ml-auto text-sm text-slate-500 dark:text-slate-400">
 			{filtrados.length} envío{filtrados.length === 1 ? '' : 's'} activo{filtrados.length === 1 ? '' : 's'}
 		</span>
 	</div>
 
 	{#if cargando}
-		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500">Cargando…</div>
+		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">Cargando…</div>
 	{:else if error}
-		<div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">Error: {error}</div>
+		<div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">Error: {error}</div>
 	{:else if filtrados.length === 0}
-		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500">
+		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
 			No hay envíos activos.
 		</div>
 	{:else}
-		<div class="rounded-xl border border-slate-200 bg-white shadow-sm">
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
 			<table class="w-full text-sm table-fixed select-none">
-				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase">
+				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase dark:bg-slate-800 dark:text-slate-300">
 					<tr>
 						<th class="px-2 py-3 text-center">Móvil</th>
 						<th class="px-2 py-3 text-center">Taller</th>
@@ -122,11 +122,11 @@
 						<th class="px-2 py-3 text-center">Acciones</th>
 					</tr>
 				</thead>
-				<tbody class="divide-y divide-slate-100">
+				<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
 					{#each filtrados as e (e.id)}
 						{@const dias = diasEntre(e.fecha_ingreso, null) ?? 0}
 						{@const rojo = dias > 30}
-						<tr class="hover:bg-slate-50 {rojo ? 'text-red-700' : 'text-amber-700'}">
+						<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 {rojo ? 'text-red-700 dark:text-red-400' : 'text-amber-700 dark:text-amber-300'}">
 							<td class="px-2 py-3 text-center align-middle font-mono font-semibold break-words">{e.moviles?.patente ?? `#${e.movil_id}`}</td>
 							<td class="px-2 py-3 text-center align-middle break-words">{e.taller}</td>
 							<td class="px-2 py-3 text-center align-middle break-words">{e.tipo ?? '—'}</td>
@@ -138,9 +138,9 @@
 							<td class="px-2 py-3 text-center align-middle">{e.reemplazo_tct ?? '—'}</td>
 							<td class="px-2 py-3 text-center align-middle">
 								<div class="inline-flex flex-wrap justify-center gap-1">
-									<button class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200" title="Editar" onclick={() => abrirEdicion(e)}>✎</button>
-									<button class="rounded-md px-2 py-1 text-xs text-emerald-700 hover:bg-emerald-100" title="Marcar salida" onclick={() => marcarSalida(e)}>✓</button>
-									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100" title="Eliminar" onclick={() => eliminarEnvio(e)}>🗑</button>
+									<button class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700" title="Editar" onclick={() => abrirEdicion(e)}>✎</button>
+									<button class="rounded-md px-2 py-1 text-xs text-emerald-700 hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40" title="Marcar salida" onclick={() => marcarSalida(e)}>✓</button>
+									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar" onclick={() => eliminarEnvio(e)}>🗑</button>
 								</div>
 							</td>
 						</tr>

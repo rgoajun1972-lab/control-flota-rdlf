@@ -1,10 +1,13 @@
 @import 'tailwindcss';
 
+/* Activar dark mode manual: agrega la clase "dark" al <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
 	color-scheme: light dark;
 }
 
-/* Fuente serif italic elegante para el título, coherente con la versión local */
+/* Fuente serif italic elegante para el título */
 .font-brand {
 	font-family: 'Playfair Display', 'Didot', 'Bodoni MT', 'Palatino Linotype',
 		'Book Antiqua', 'Georgia', serif;
@@ -13,7 +16,6 @@
 	letter-spacing: 0.01em;
 }
 
-/* Scrollbar sutil */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 10px; }

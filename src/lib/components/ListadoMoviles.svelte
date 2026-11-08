@@ -70,54 +70,54 @@
 
 	function colorEstado(estado: string) {
 		switch (estado) {
-			case 'Operativo': return 'bg-emerald-100 text-emerald-700 border-emerald-300';
-			case 'Stand by':  return 'bg-sky-100 text-sky-700 border-sky-300';
-			case 'En taller': return 'bg-amber-100 text-amber-700 border-amber-300';
-			case 'Baja':      return 'bg-slate-200 text-slate-600 border-slate-300';
-			default:          return 'bg-slate-100 text-slate-600 border-slate-300';
+			case 'Operativo': return 'bg-emerald-100 text-emerald-700 border-emerald-300 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700';
+			case 'Stand by':  return 'bg-sky-100 text-sky-700 border-sky-300 dark:bg-sky-900/40 dark:text-sky-300 dark:border-sky-700';
+			case 'En taller': return 'bg-amber-100 text-amber-700 border-amber-300 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-700';
+			case 'Baja':      return 'bg-slate-200 text-slate-600 border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600';
+			default:          return 'bg-slate-100 text-slate-600 border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600';
 		}
 	}
 </script>
 
 <div class="space-y-5">
 	<div>
-		<h1 class="text-2xl font-semibold text-slate-900">{titulo}</h1>
-		<p class="text-sm text-slate-500">{subtitulo}</p>
+		<h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">{titulo}</h1>
+		<p class="text-sm text-slate-500 dark:text-slate-400">{subtitulo}</p>
 	</div>
 
-	<div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+	<div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900">
 		<input
 			type="search"
 			bind:value={q}
 			placeholder="Buscar por patente, marca, modelo…"
-			class="flex-1 min-w-48 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+			class="flex-1 min-w-48 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
 		/>
-		<select bind:value={f_area} class="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-sky-500">
+		<select bind:value={f_area} class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
 			<option value="">Área: todas</option>
 			{#each AREAS as a (a)}<option value={a}>{a}</option>{/each}
 		</select>
-		<select bind:value={f_leasing} class="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-sky-500">
+		<select bind:value={f_leasing} class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
 			<option value="">Leasing: todos</option>
 			{#each LEASINGS as l (l)}<option value={l}>{l}</option>{/each}
 		</select>
 	</div>
 
 	{#if cargando}
-		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500">
+		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
 			Cargando…
 		</div>
 	{:else if error}
-		<div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+		<div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
 			Error: {error}
 		</div>
 	{:else if filtrados.length === 0}
-		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500">
+		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
 			No hay móviles que coincidan con los filtros.
 		</div>
 	{:else}
-		<div class="rounded-xl border border-slate-200 bg-white shadow-sm">
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
 			<table class="w-full text-sm table-fixed select-none">
-				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase">
+				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase dark:bg-slate-800 dark:text-slate-300">
 					<tr>
 						<th class="px-2 py-3 text-center">Patente</th>
 						<th class="px-2 py-3 text-center">Área</th>
@@ -131,9 +131,9 @@
 						<th class="px-2 py-3 text-center">Acciones</th>
 					</tr>
 				</thead>
-				<tbody class="divide-y divide-slate-100">
+				<tbody class="divide-y divide-slate-100 text-slate-800 dark:divide-slate-800 dark:text-slate-200">
 					{#each filtrados as m (m.id)}
-						<tr class="hover:bg-slate-50">
+						<tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
 							<td class="px-2 py-3 text-center align-middle font-mono font-semibold break-words">{m.patente}</td>
 							<td class="px-2 py-3 text-center align-middle break-words">{m.area ?? '—'}</td>
 							<td class="px-2 py-3 text-center align-middle break-words">{[m.marca, m.modelo].filter(Boolean).join(' ') || '—'}</td>
@@ -141,7 +141,7 @@
 							<td class="px-2 py-3 text-center align-middle break-words">{m.leasing ?? '—'}</td>
 							<td class="px-2 py-3 text-center align-middle break-words">{m.responsable ?? '—'}</td>
 							<td class="px-2 py-3 text-center align-middle">{m.chevron ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle text-xs text-slate-500 whitespace-nowrap">{formatFechaDMY(m.fecha_alta)}</td>
+							<td class="px-2 py-3 text-center align-middle text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">{formatFechaDMY(m.fecha_alta)}</td>
 							<td class="px-2 py-3 text-center align-middle">
 								<span class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium whitespace-nowrap {colorEstado(m.estado)}">
 									● {m.estado}
@@ -149,11 +149,11 @@
 							</td>
 							<td class="px-2 py-3 text-center align-middle">
 								<div class="inline-flex flex-wrap justify-center gap-1">
-									<button class="rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-200 hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed"
+									<button class="rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-200 hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white"
 										title="Editar" onclick={() => abrirEdicion(m)} disabled={m.estado === 'En taller'}>✎</button>
-									<button class="rounded-md px-2 py-1 text-xs text-amber-700 hover:bg-amber-100"
+									<button class="rounded-md px-2 py-1 text-xs text-amber-700 hover:bg-amber-100 dark:text-amber-300 dark:hover:bg-amber-900/40"
 										title="Enviar a taller" onclick={() => enviarATaller(m)}>🔧</button>
-									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100"
+									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
 										title="Eliminar" onclick={() => eliminar(m)}>🗑</button>
 								</div>
 							</td>
@@ -162,7 +162,7 @@
 				</tbody>
 			</table>
 		</div>
-		<p class="text-xs text-slate-500">
+		<p class="text-xs text-slate-500 dark:text-slate-400">
 			Mostrando {filtrados.length} de {moviles.length} móviles.
 		</p>
 	{/if}

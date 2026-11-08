@@ -96,84 +96,84 @@
 	}
 
 	function colorEstado(r: Row): string {
-		if (!r.fecha_salida_real) return 'text-amber-700';
+		if (!r.fecha_salida_real) return 'text-amber-700 dark:text-amber-300';
 		const e = r.moviles?.estado;
-		if (e === 'Baja') return 'text-slate-500';
-		if (e === 'Stand by') return 'text-sky-700';
-		return 'text-emerald-700';
+		if (e === 'Baja') return 'text-slate-500 dark:text-slate-400';
+		if (e === 'Stand by') return 'text-sky-700 dark:text-sky-300';
+		return 'text-emerald-700 dark:text-emerald-300';
 	}
 </script>
 
 <div class="space-y-5">
 	<div>
-		<h1 class="text-2xl font-semibold text-slate-900">Historial</h1>
-		<p class="text-sm text-slate-500">Envíos a taller — todos los registros filtrables</p>
+		<h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">Historial</h1>
+		<p class="text-sm text-slate-500 dark:text-slate-400">Envíos a taller — todos los registros filtrables</p>
 	</div>
 
 	<!-- KPIs -->
 	<div class="grid grid-cols-2 gap-3 sm:grid-cols-5">
-		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-			<div class="text-xs font-medium text-slate-500 uppercase">Envíos por panne</div>
-			<div class="mt-1 text-2xl font-semibold text-red-600">{kpi.panne}</div>
+		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+			<div class="text-xs font-medium text-slate-500 uppercase dark:text-slate-400">Envíos por panne</div>
+			<div class="mt-1 text-2xl font-semibold text-red-600 dark:text-red-400">{kpi.panne}</div>
 		</div>
-		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-			<div class="text-xs font-medium text-slate-500 uppercase">Envíos por mantención</div>
-			<div class="mt-1 text-2xl font-semibold text-sky-600">{kpi.mant}</div>
+		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+			<div class="text-xs font-medium text-slate-500 uppercase dark:text-slate-400">Envíos por mantención</div>
+			<div class="mt-1 text-2xl font-semibold text-sky-600 dark:text-sky-400">{kpi.mant}</div>
 		</div>
-		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-			<div class="text-xs font-medium text-slate-500 uppercase">Días prom · panne</div>
-			<div class="mt-1 text-2xl font-semibold text-amber-600">{kpi.dias_p}</div>
+		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+			<div class="text-xs font-medium text-slate-500 uppercase dark:text-slate-400">Días prom · panne</div>
+			<div class="mt-1 text-2xl font-semibold text-amber-600 dark:text-amber-300">{kpi.dias_p}</div>
 		</div>
-		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-			<div class="text-xs font-medium text-slate-500 uppercase">Días prom · mantención</div>
-			<div class="mt-1 text-2xl font-semibold text-emerald-600">{kpi.dias_m}</div>
+		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+			<div class="text-xs font-medium text-slate-500 uppercase dark:text-slate-400">Días prom · mantención</div>
+			<div class="mt-1 text-2xl font-semibold text-emerald-600 dark:text-emerald-400">{kpi.dias_m}</div>
 		</div>
-		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-			<div class="text-xs font-medium text-slate-500 uppercase">Móviles con historial</div>
-			<div class="mt-1 text-2xl font-semibold text-slate-700">{kpi.mov}</div>
+		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+			<div class="text-xs font-medium text-slate-500 uppercase dark:text-slate-400">Móviles con historial</div>
+			<div class="mt-1 text-2xl font-semibold text-slate-700 dark:text-slate-200">{kpi.mov}</div>
 		</div>
 	</div>
 
 	<!-- Filtros -->
-	<div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+	<div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900">
 		<select bind:value={f_movil}
-			class="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-sky-500">
+			class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
 			<option value="Todos">Móvil: todos</option>
 			{#each patentes as p (p)}<option value={p}>{p}</option>{/each}
 		</select>
 		<select bind:value={f_tipo}
-			class="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-sky-500">
+			class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
 			<option value="Todos">Tipo: todos</option>
 			{#each TIPOS_ENVIO as t (t)}<option value={t}>{t}</option>{/each}
 		</select>
 		<select bind:value={f_anio}
-			class="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-sky-500">
+			class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
 			<option value="Todos">Año: todos</option>
 			{#each anios as a (a)}<option value={a}>{a}</option>{/each}
 		</select>
 		<select bind:value={f_estado}
-			class="rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-sky-500">
+			class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
 			<option value="Todos">Estado: todos</option>
 			<option value="Cerrados">Cerrados</option>
 			<option value="Abiertos">Abiertos</option>
 		</select>
 		<input type="search" bind:value={q}
 			placeholder="Buscar…"
-			class="flex-1 min-w-40 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200" />
+			class="flex-1 min-w-40 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100" />
 	</div>
 
 	{#if cargando}
-		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500">Cargando…</div>
+		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">Cargando…</div>
 	{:else if error}
-		<div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">Error: {error}</div>
+		<div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">Error: {error}</div>
 	{:else if filtrados.length === 0}
-		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500">
+		<div class="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
 			No hay envíos que coincidan con los filtros.
 		</div>
 	{:else}
-		<div class="rounded-xl border border-slate-200 bg-white shadow-sm">
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
 			<table class="w-full text-sm table-fixed select-none">
-				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase">
+				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase dark:bg-slate-800 dark:text-slate-300">
 					<tr>
 						<th class="px-2 py-3 text-center w-12">#</th>
 						<th class="px-2 py-3 text-center">Móvil</th>
@@ -188,9 +188,9 @@
 						<th class="px-2 py-3 text-center">Acciones</th>
 					</tr>
 				</thead>
-				<tbody class="divide-y divide-slate-100">
+				<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
 					{#each filtrados as r (r.id)}
-						<tr class="hover:bg-slate-50 {colorEstado(r)}">
+						<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 {colorEstado(r)}">
 							<td class="px-2 py-3 text-center align-middle font-mono text-xs">{r.id}</td>
 							<td class="px-2 py-3 text-center align-middle font-mono font-semibold break-words">{r.moviles?.patente ?? `#${r.movil_id}`}</td>
 							<td class="px-2 py-3 text-center align-middle break-words">{r.taller}</td>
@@ -202,14 +202,14 @@
 							<td class="px-2 py-3 text-center align-middle break-words">{r.reemplazo?.patente ?? '—'}</td>
 							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{estadoTexto(r)}</td>
 							<td class="px-2 py-3 text-center align-middle">
-								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100" title="Eliminar de historial" onclick={() => eliminar(r)}>🗑</button>
+								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar de historial" onclick={() => eliminar(r)}>🗑</button>
 							</td>
 						</tr>
 					{/each}
 				</tbody>
 			</table>
 		</div>
-		<p class="text-xs text-slate-500">
+		<p class="text-xs text-slate-500 dark:text-slate-400">
 			Mostrando {filtrados.length} de {rows.length} envíos.
 		</p>
 	{/if}
