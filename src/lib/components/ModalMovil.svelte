@@ -137,7 +137,7 @@
 				<label class="col-span-1 text-slate-600 dark:text-slate-300">Patente *
 					<input bind:value={patente} disabled={soloLectura}
 						onblur={() => (patente = normalizarPatente(patente))}
-						class="mt-1 w-full rounded-md border border-slate-200 px-2 py-1.5 font-mono font-semibold text-slate-800" />
+						class="mt-1 w-full rounded-md border border-slate-200 bg-white px-2 py-1.5 font-mono font-semibold text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100" />
 				</label>
 				<label class="col-span-1 text-slate-600 dark:text-slate-300">Leasing
 					<select bind:value={leasing} disabled={soloLectura} class="mt-1 w-full rounded-md border border-slate-200 bg-white px-2 py-1.5 text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">

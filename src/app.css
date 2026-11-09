@@ -20,3 +20,30 @@
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.5); }
+
+/* ========================================================================
+   Red de seguridad para modo oscuro:
+   garantiza que cualquier input/select/textarea sea legible en el tema
+   nocturno aunque el componente se olvide de poner las variantes dark:.
+   Specificity "html.dark input" = 11, gana a las clases Tailwind (10).
+   Los disabled mantienen su propio tono.
+   ======================================================================== */
+html.dark input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']),
+html.dark select,
+html.dark textarea {
+	background-color: #1e293b; /* slate-800 */
+	color: #f1f5f9; /* slate-100 */
+	border-color: #334155; /* slate-700 */
+}
+
+html.dark input[disabled]:not([type='checkbox']):not([type='radio']),
+html.dark select[disabled],
+html.dark textarea[disabled] {
+	background-color: #334155; /* slate-700 */
+	color: #cbd5e1; /* slate-300 */
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+	color: #94a3b8; /* slate-400 */
+}
