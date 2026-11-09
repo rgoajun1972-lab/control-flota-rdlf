@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import {
 		CATALOGOS, listarCatalogo, agregarCatalogo, editarCatalogo, eliminarCatalogo,
-		combinarCatalogo, type TipoCatalogo, type Catalogo
+		sembrarCatalogoPorDefecto, type TipoCatalogo, type Catalogo
 	} from '#lib/supabase';
 
 	let tipo = $state<TipoCatalogo>('leasing');
@@ -17,9 +17,10 @@
 	let editValor = $state('');
 
 	let cfg = $derived(CATALOGOS.find((c) => c.tipo === tipo)!);
-	let lista = $derived(combinarCatalogo(cfg.defaults, extras));
-	let esDefault = $derived((v: string) => cfg.defaults.includes(v));
-	let buscarId = $derived((v: string) => extras.find((e) => e.valor === v)?.id);
+	let faltantesPorDefecto = $derived(() => {
+		const actuales = new Set(extras.map((e) => e.valor));
+		return cfg.defaults.filter((d) => !actuales.has(d));
+	});
 
 	async function recargar() {
 		cargando = true;
@@ -34,7 +35,7 @@
 		mensaje = null;
 		const v = nuevo.trim();
 		if (!v) return;
-		if (lista.includes(v)) {
+		if (extras.some((e) => e.valor === v)) {
 			mensaje = { tipo: 'err', texto: 'Ese valor ya está en la lista.' };
 			return;
 		}
@@ -50,34 +51,22 @@
 		await recargar();
 	}
 
-	async function eliminar(valor: string) {
-		if (esDefault(valor)) {
-			mensaje = { tipo: 'err', texto: `"${valor}" es un valor por defecto, no se puede eliminar.` };
+	async function eliminar(c: Catalogo) {
+		if (!confirm(`¿Eliminar "${c.valor}" del catálogo?\n\nLos móviles ya cargados con este valor NO se modifican, pero no estará más en la lista desplegable.`))
 			return;
-		}
-		const id = buscarId(valor);
-		if (!id) return;
-		if (!confirm(`¿Eliminar "${valor}" del catálogo?\n\nLos móviles ya cargados con este valor NO se modifican, pero no estará más en la lista desplegable.`))
-			return;
-		const res = await eliminarCatalogo(id);
+		const res = await eliminarCatalogo(c.id!);
 		if (res.error) {
 			mensaje = { tipo: 'err', texto: res.error.message };
 			return;
 		}
-		mensaje = { tipo: 'ok', texto: `"${valor}" eliminado.` };
+		mensaje = { tipo: 'ok', texto: `"${c.valor}" eliminado.` };
 		await recargar();
 	}
 
-	function comenzarEdicion(valor: string) {
+	function comenzarEdicion(c: Catalogo) {
 		mensaje = null;
-		if (esDefault(valor)) {
-			mensaje = { tipo: 'err', texto: `"${valor}" es un valor por defecto, no se puede editar.` };
-			return;
-		}
-		const id = buscarId(valor);
-		if (!id) return;
-		editandoId = id;
-		editValor = valor;
+		editandoId = c.id!;
+		editValor = c.valor;
 	}
 
 	function cancelarEdicion() {
@@ -94,7 +83,7 @@
 		}
 		const original = extras.find((e) => e.id === editandoId)?.valor;
 		if (v === original) { cancelarEdicion(); return; }
-		if (lista.includes(v)) {
+		if (extras.some((e) => e.valor === v && e.id !== editandoId)) {
 			mensaje = { tipo: 'err', texto: `"${v}" ya existe en la lista.` };
 			return;
 		}
@@ -107,14 +96,31 @@
 		cancelarEdicion();
 		await recargar();
 	}
+
+	async function importarPorDefecto() {
+		const faltan = faltantesPorDefecto();
+		if (!faltan.length) {
+			mensaje = { tipo: 'ok', texto: 'Ya están todos los valores por defecto.' };
+			return;
+		}
+		guardando = true;
+		const res = await sembrarCatalogoPorDefecto(tipo, faltan);
+		guardando = false;
+		if (res.error) {
+			mensaje = { tipo: 'err', texto: res.error.message };
+			return;
+		}
+		mensaje = { tipo: 'ok', texto: `${faltan.length} valor(es) importado(s).` };
+		await recargar();
+	}
 </script>
 
 <div class="space-y-5">
 	<div>
 		<h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">Catálogos</h1>
 		<p class="text-sm text-slate-500 dark:text-slate-400">
-			Agregá valores extra a las listas desplegables (áreas, leasings, marcas, motivos).
-			Los valores por defecto no se pueden eliminar.
+			Editá las listas desplegables que usan los formularios (áreas, leasings, marcas, motivos).
+			Todos los valores se pueden modificar o eliminar.
 		</p>
 	</div>
 
@@ -133,7 +139,7 @@
 		{/each}
 	</div>
 
-	<!-- Agregar nuevo -->
+	<!-- Agregar nuevo + Importar defaults -->
 	<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
 		<h3 class="mb-3 text-sm font-semibold text-slate-700 dark:text-slate-200">
 			Agregar valor a {cfg.etiqueta}
@@ -151,6 +157,17 @@
 			>
 				{guardando ? 'Guardando…' : '+ Agregar'}
 			</button>
+			{#if faltantesPorDefecto().length > 0}
+				<button
+					type="button"
+					onclick={importarPorDefecto}
+					disabled={guardando}
+					class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+					title="Carga en la base los valores que trae el programa por defecto y aún no están en tu lista"
+				>
+					↓ Importar {faltantesPorDefecto().length} por defecto
+				</button>
+			{/if}
 		</form>
 		{#if mensaje}
 			<p class="mt-3 text-xs {mensaje.tipo === 'ok' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}">
@@ -163,19 +180,29 @@
 	<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
 		<div class="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-700">
 			<h3 class="text-sm font-semibold text-slate-700 dark:text-slate-200">
-				Valores actuales de {cfg.etiqueta} ({lista.length})
+				Valores de {cfg.etiqueta} ({extras.length})
 			</h3>
-			<span class="text-xs text-slate-500 dark:text-slate-400">
-				{cfg.defaults.length} por defecto · {extras.length} personalizados
-			</span>
 		</div>
 		{#if cargando}
 			<div class="p-10 text-center text-sm text-slate-500 dark:text-slate-400">Cargando…</div>
+		{:else if extras.length === 0}
+			<div class="space-y-3 p-10 text-center">
+				<p class="text-sm text-slate-500 dark:text-slate-400">
+					La lista está vacía. Mientras tanto los formularios usan los valores que
+					trae el programa por defecto ({cfg.defaults.length}).
+				</p>
+				<button
+					onclick={importarPorDefecto}
+					disabled={guardando}
+					class="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 disabled:opacity-50"
+				>
+					↓ Importar valores por defecto
+				</button>
+			</div>
 		{:else}
 			<ul class="divide-y divide-slate-100 dark:divide-slate-800">
-				{#each lista as v (v)}
-					{@const idFila = buscarId(v)}
-					{@const editando = editandoId !== null && idFila === editandoId}
+				{#each extras as c (c.id)}
+					{@const editando = editandoId === c.id}
 					<li class="flex items-center justify-between gap-3 px-4 py-2.5">
 						{#if editando}
 							<form
@@ -201,38 +228,23 @@
 								</button>
 							</form>
 						{:else}
-							<div class="flex items-center gap-3">
-								<span class="text-sm text-slate-800 dark:text-slate-100">{v}</span>
-								{#if esDefault(v)}
-									<span class="rounded-full border border-slate-300 bg-slate-50 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400">
-										por defecto
-									</span>
-								{:else}
-									<span class="rounded-full border border-emerald-300 bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700 dark:border-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
-										personalizado
-									</span>
-								{/if}
+							<span class="text-sm text-slate-800 dark:text-slate-100">{c.valor}</span>
+							<div class="flex items-center gap-1">
+								<button
+									onclick={() => comenzarEdicion(c)}
+									class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700"
+									title="Editar"
+								>
+									✎ Editar
+								</button>
+								<button
+									onclick={() => eliminar(c)}
+									class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
+									title="Eliminar"
+								>
+									🗑 Eliminar
+								</button>
 							</div>
-							{#if !esDefault(v)}
-								<div class="flex items-center gap-1">
-									<button
-										onclick={() => comenzarEdicion(v)}
-										class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700"
-										title="Editar"
-									>
-										✎ Editar
-									</button>
-									<button
-										onclick={() => eliminar(v)}
-										class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
-										title="Eliminar"
-									>
-										🗑 Eliminar
-									</button>
-								</div>
-							{:else}
-								<span class="text-xs italic text-slate-400 dark:text-slate-500">no se puede editar/eliminar</span>
-							{/if}
 						{/if}
 					</li>
 				{/each}

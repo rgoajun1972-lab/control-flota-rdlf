@@ -103,12 +103,21 @@ export async function eliminarCatalogo(id: number) {
 	return await supabase.from('catalogos').delete().eq('id', id);
 }
 
-// Mezcla valores por defecto + personalizados (sin duplicados, ordenados)
+// Si la BD tiene valores para ese tipo se usan SOLO los de BD (el usuario
+// tomó control). Si está vacía, se usan los defaults del código como fallback.
 export function combinarCatalogo(defaults: string[], extras: Catalogo[]): string[] {
-	const set = new Set<string>();
-	defaults.forEach((d) => set.add(d));
-	extras.forEach((e) => set.add(e.valor));
-	return Array.from(set).sort((a, b) => a.localeCompare(b, 'es'));
+	const valores = extras.length > 0 ? extras.map((e) => e.valor) : defaults;
+	return Array.from(new Set(valores)).sort((a, b) => a.localeCompare(b, 'es'));
+}
+
+// Inserta los defaults en la tabla ignorando los que ya estén (UNIQUE tipo,valor)
+export async function sembrarCatalogoPorDefecto(tipo: TipoCatalogo, defaults: string[]) {
+	if (!defaults.length) return { error: null, inserted: 0 };
+	const filas = defaults.map((valor) => ({ tipo, valor }));
+	const res = await supabase
+		.from('catalogos')
+		.upsert(filas, { onConflict: 'tipo,valor', ignoreDuplicates: true });
+	return res;
 }
 
 // Normaliza patente chilena a formato con guión:
