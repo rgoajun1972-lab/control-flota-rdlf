@@ -71,7 +71,7 @@
 		<div class="mx-auto flex w-full flex-wrap items-center gap-6 px-6 py-5">
 			<div class="flex flex-col">
 				<div class="flex items-center gap-3">
-					<span class="font-brand text-3xl text-sky-900 dark:text-sky-300">Control de Flota</span>
+					<span class="font-brand text-5xl font-bold text-sky-900 dark:text-sky-300">Control de Flota</span>
 					{#if logoOk}
 						<img
 							src="/logo_ruta_fruta.png"
