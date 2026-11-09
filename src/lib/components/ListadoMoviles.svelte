@@ -142,7 +142,7 @@
 						<th class="px-2 py-3 text-center">Leasing</th>
 						<th class="px-2 py-3 text-center">Responsable</th>
 						<th class="px-2 py-3 text-center w-14">Chevron</th>
-						<th class="px-2 py-3 text-center w-24">F. término Leasing</th>
+						<th class="px-2 py-3 text-center w-24">Fin Leasing</th>
 						<th class="px-2 py-3 text-center w-24">Estado</th>
 						<th class="px-2 py-3 text-center w-64">Acciones</th>
 					</tr>

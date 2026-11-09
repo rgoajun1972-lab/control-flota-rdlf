@@ -173,7 +173,7 @@
 						</select>
 					</label>
 				{/if}
-				<label class="col-span-1 text-slate-600 dark:text-slate-300">Fecha término Leasing
+				<label class="col-span-1 text-slate-600 dark:text-slate-300">Fin Leasing
 					<input type="date" bind:value={fecha_alta} disabled={soloLectura}
 						class="mt-1 w-full rounded-md border border-slate-200 bg-white px-2 py-1.5 text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100" />
 				</label>
