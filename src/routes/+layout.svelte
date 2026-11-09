@@ -21,6 +21,7 @@
 		href === '/' ? activeHref === '/' : activeHref.startsWith(href);
 
 	let tema = $state<Tema>('claro');
+	let logoOk = $state(true);
 
 	onMount(() => {
 		tema = temaInicial();
@@ -48,9 +49,18 @@
 	style="font-family: Inter, system-ui, sans-serif;">
 	<header class="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
 		<div class="mx-auto flex w-full flex-wrap items-center gap-6 px-6 py-5">
-			<div class="flex items-baseline gap-3">
+			<div class="flex items-center gap-3">
 				<span class="font-brand text-3xl text-sky-900 dark:text-sky-300">Control de Flota</span>
-				<span class="hidden text-sm text-slate-500 dark:text-slate-400 sm:inline">· Ruta de la Fruta</span>
+				{#if logoOk}
+					<img
+						src="/logo-rdlf.png"
+						alt="Ruta de la Fruta"
+						class="hidden h-10 w-auto sm:inline-block"
+						onerror={() => (logoOk = false)}
+					/>
+				{:else}
+					<span class="hidden text-sm text-slate-500 dark:text-slate-400 sm:inline">· Ruta de la Fruta</span>
+				{/if}
 			</div>
 			<nav class="order-3 flex w-full gap-1 overflow-x-auto sm:order-2 sm:w-auto">
 				{#each tabs as t (t.href)}
