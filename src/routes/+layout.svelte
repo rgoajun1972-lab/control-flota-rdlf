@@ -53,7 +53,7 @@
 				<span class="font-brand text-3xl text-sky-900 dark:text-sky-300">Control de Flota</span>
 				{#if logoOk}
 					<img
-						src="/logo-rdlf.png"
+						src="/logo_ruta_fruta.png"
 						alt="Ruta de la Fruta"
 						class="hidden h-10 w-auto sm:inline-block"
 						onerror={() => (logoOk = false)}
