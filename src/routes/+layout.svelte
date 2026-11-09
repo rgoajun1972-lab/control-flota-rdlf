@@ -65,7 +65,7 @@
 	<title>Control de Flota · Ruta de la Fruta</title>
 </svelte:head>
 
-<div class="min-h-screen bg-slate-50 text-slate-800 transition-colors dark:bg-slate-950 dark:text-slate-100"
+<div class="min-h-screen bg-slate-200 text-slate-800 transition-colors dark:bg-slate-950 dark:text-slate-100"
 	style="font-family: Inter, system-ui, sans-serif;">
 	<header class="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
 		<div class="mx-auto flex w-full flex-wrap items-center gap-6 px-6 py-5">
