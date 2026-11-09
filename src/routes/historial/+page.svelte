@@ -173,7 +173,7 @@
 	{:else}
 		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
 			<table class="w-full text-sm table-fixed select-none">
-				<thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase dark:bg-slate-800 dark:text-slate-300">
+				<thead class="bg-slate-700 text-xs font-bold text-white uppercase tracking-wider dark:bg-slate-950 dark:text-slate-100">
 					<tr>
 						<th class="px-2 py-3 text-center w-12">#</th>
 						<th class="px-2 py-3 text-center">Móvil</th>
