@@ -58,15 +58,13 @@ export const MARCAS = MARCAS_DEFAULT;
 // Permite agregar/eliminar valores extra desde la UI /catalogos.
 // Los DEFAULTS de arriba son fijos; los personalizados se guardan en BD.
 // ===================================================================
-export type TipoCatalogo = 'area' | 'leasing' | 'marca' | 'motivo' | 'encargado' | 'cargo';
+export type TipoCatalogo = 'area' | 'leasing' | 'marca' | 'motivo';
 
 export const CATALOGOS: { tipo: TipoCatalogo; etiqueta: string; defaults: string[] }[] = [
-	{ tipo: 'area',      etiqueta: 'Áreas',               defaults: AREAS_DEFAULT },
-	{ tipo: 'leasing',   etiqueta: 'Empresas de leasing', defaults: LEASINGS_DEFAULT },
-	{ tipo: 'marca',     etiqueta: 'Marcas',              defaults: MARCAS_DEFAULT },
-	{ tipo: 'motivo',    etiqueta: 'Motivos de envío',    defaults: MOTIVOS_ENVIO_DEFAULT },
-	{ tipo: 'encargado', etiqueta: 'Encargado de Flota',  defaults: [] },
-	{ tipo: 'cargo',     etiqueta: 'Cargo',               defaults: [] }
+	{ tipo: 'area',    etiqueta: 'Áreas',               defaults: AREAS_DEFAULT },
+	{ tipo: 'leasing', etiqueta: 'Empresas de leasing', defaults: LEASINGS_DEFAULT },
+	{ tipo: 'marca',   etiqueta: 'Marcas',              defaults: MARCAS_DEFAULT },
+	{ tipo: 'motivo',  etiqueta: 'Motivos de envío',    defaults: MOTIVOS_ENVIO_DEFAULT }
 ];
 
 export interface Catalogo {
@@ -89,16 +87,50 @@ export async function listarCatalogo(tipo: TipoCatalogo): Promise<Catalogo[]> {
 	return (data ?? []) as Catalogo[];
 }
 
-// Devuelve el valor más recientemente agregado de un tipo (o null si no hay)
-export async function obtenerUltimoCatalogo(tipo: TipoCatalogo): Promise<string | null> {
+// ===================================================================
+// Encargados de flota (tabla `encargados`): nombre + cargo
+// La pantalla principal muestra el más reciente.
+// ===================================================================
+export interface Encargado {
+	id?: number;
+	nombre: string;
+	cargo?: string | null;
+	creado?: string;
+}
+
+export async function obtenerEncargadoActual(): Promise<Encargado | null> {
 	const { data, error } = await supabase
-		.from('catalogos')
-		.select('valor')
-		.eq('tipo', tipo)
+		.from('encargados')
+		.select('*')
 		.order('creado', { ascending: false })
 		.limit(1);
 	if (error || !data || data.length === 0) return null;
-	return data[0].valor;
+	return data[0] as Encargado;
+}
+
+// Guarda al encargado (único). Si ya hay uno, lo actualiza; si no, lo crea.
+// Si por error quedaron varios, se queda con el más reciente y borra el resto.
+export async function guardarEncargado(nombre: string, cargo: string) {
+	const n = nombre.trim();
+	const c = cargo.trim();
+	if (!n) return { error: { message: 'El nombre no puede estar vacío.' } };
+	const actual = await obtenerEncargadoActual();
+	if (actual?.id) {
+		const upd = await supabase
+			.from('encargados')
+			.update({ nombre: n, cargo: c || null })
+			.eq('id', actual.id);
+		if (upd.error) return upd;
+		// limpieza por si quedaron registros viejos
+		await supabase.from('encargados').delete().neq('id', actual.id);
+		return upd;
+	}
+	return await supabase.from('encargados').insert({ nombre: n, cargo: c || null });
+}
+
+export async function eliminarEncargado() {
+	// Borra todo (solo hay uno conceptualmente)
+	return await supabase.from('encargados').delete().neq('id', 0);
 }
 
 export async function agregarCatalogo(tipo: TipoCatalogo, valor: string) {

@@ -4,7 +4,7 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import { page } from '$app/state';
 	import { aplicarTema, temaInicial, type Tema } from '#lib/tema';
-	import { obtenerUltimoCatalogo } from '#lib/supabase';
+	import { obtenerEncargadoActual } from '#lib/supabase';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
@@ -27,12 +27,9 @@
 	let cargo = $state<string | null>(null);
 
 	async function recargarEncargado() {
-		const [e, c] = await Promise.all([
-			obtenerUltimoCatalogo('encargado'),
-			obtenerUltimoCatalogo('cargo')
-		]);
-		encargado = e;
-		cargo = c;
+		const e = await obtenerEncargadoActual();
+		encargado = e?.nombre ?? null;
+		cargo = e?.cargo ?? null;
 	}
 
 	onMount(() => {
@@ -87,12 +84,18 @@
 					{/if}
 				</div>
 				{#if encargado || cargo}
-					<div class="mt-0.5 text-xs leading-tight text-slate-600 dark:text-slate-400">
+					<div class="mt-1 space-y-0.5 text-xs leading-tight">
 						{#if encargado}
-							<span class="font-semibold text-slate-800 dark:text-slate-200">{encargado}</span>
+							<div>
+								<span class="text-slate-500 dark:text-slate-400">Encargado de Flota:</span>
+								<span class="font-semibold text-slate-800 dark:text-slate-200">{encargado}</span>
+							</div>
 						{/if}
 						{#if cargo}
-							<span class="block text-slate-500 dark:text-slate-400">{cargo}</span>
+							<div>
+								<span class="text-slate-500 dark:text-slate-400">Cargo:</span>
+								<span class="font-semibold text-slate-800 dark:text-slate-200">{cargo}</span>
+							</div>
 						{/if}
 					</div>
 				{/if}
