@@ -1,8 +1,24 @@
 ﻿<script lang="ts">
+	import { onMount } from 'svelte';
 	import {
-		supabase, AREAS, LEASINGS, ESTADOS, ROLES, SI_NO, MARCAS,
+		supabase, AREAS_DEFAULT, LEASINGS_DEFAULT, MARCAS_DEFAULT,
+		ESTADOS, ROLES, SI_NO,
+		listarCatalogo, combinarCatalogo,
 		normalizarPatente, type Movil
 	} from '#lib/supabase';
+
+	let AREAS = $state<string[]>(AREAS_DEFAULT);
+	let LEASINGS = $state<string[]>(LEASINGS_DEFAULT);
+	let MARCAS = $state<string[]>(MARCAS_DEFAULT);
+
+	onMount(async () => {
+		const [a, l, m] = await Promise.all([
+			listarCatalogo('area'), listarCatalogo('leasing'), listarCatalogo('marca')
+		]);
+		AREAS = combinarCatalogo(AREAS_DEFAULT, a);
+		LEASINGS = combinarCatalogo(LEASINGS_DEFAULT, l);
+		MARCAS = combinarCatalogo(MARCAS_DEFAULT, m);
+	});
 
 	interface Props {
 		item: Movil | null;

@@ -9,24 +9,31 @@ const SUPABASE_ANON_KEY = 'sb_publishable_NiByTzmH526VsR8tGlfxAA_cfdbHFxA';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Constantes de dominio (reusadas del programa local)
-export const AREAS = [
+// Constantes de dominio (valores por defecto — pueden ampliarse desde /catalogos)
+export const AREAS_DEFAULT = [
 	'Operaciones', 'Conservación', 'Administración', 'Supervisión',
 	'Gerencia', 'Jefes de área', 'Mantención Sistemas', 'Otro'
 ];
 
-export const LEASINGS = [
+export const LEASINGS_DEFAULT = [
 	'Mitta', 'Salfa', 'Kaufmann', 'Relsa', 'Eurocar',
 	'LED PROYECT', 'Wift', 'SCRDF', 'Propio (Concesionaria)', 'Otro'
 ];
 
+export const MOTIVOS_ENVIO_DEFAULT = ['Mantención', 'Falla mecánica'];
+
+// Fijos (estructurales; no se editan desde la UI)
 export const ESTADOS = ['Operativo', 'Stand by', 'En taller', 'Baja'];
 export const ROLES = ['Titular', 'Reemplazo'];
 export const SI_NO = ['Sí', 'No'];
 export const TIPOS_ENVIO = ['Panne', 'Mantención'];
-export const MOTIVOS_ENVIO = ['Mantención', 'Falla mecánica'];
 
-export const MARCAS = [
+// Aliases por compatibilidad con código ya escrito
+export const AREAS = AREAS_DEFAULT;
+export const LEASINGS = LEASINGS_DEFAULT;
+export const MOTIVOS_ENVIO = MOTIVOS_ENVIO_DEFAULT;
+
+export const MARCAS_DEFAULT = [
 	'AGRALE', 'ASIA', 'AUDI', 'B Y D', 'BAIC', 'BAJAJ', 'BENELLI', 'BMW',
 	'Brillance', 'CAMC', 'CATERPILLAR', 'CHANGAN', 'CHERY', 'CHEVROLET',
 	'CITROEN', 'CORSA', 'DAEWOO', 'DAF', 'DAIHATSU', 'DFM', 'DFSK', 'DIMEX',
@@ -43,6 +50,60 @@ export const MARCAS = [
 	'VOLVO', 'WESTERN STAR', 'YAMAHA', 'YUE JIN', 'ZNA', 'ZOTIE', 'ZOTYE',
 	'ZX', 'ZXAUTO'
 ];
+
+export const MARCAS = MARCAS_DEFAULT;
+
+// ===================================================================
+// Catálogos dinámicos (tabla `catalogos` en Supabase)
+// Permite agregar/eliminar valores extra desde la UI /catalogos.
+// Los DEFAULTS de arriba son fijos; los personalizados se guardan en BD.
+// ===================================================================
+export type TipoCatalogo = 'area' | 'leasing' | 'marca' | 'motivo';
+
+export const CATALOGOS: { tipo: TipoCatalogo; etiqueta: string; defaults: string[] }[] = [
+	{ tipo: 'area',    etiqueta: 'Áreas',             defaults: AREAS_DEFAULT },
+	{ tipo: 'leasing', etiqueta: 'Empresas de leasing', defaults: LEASINGS_DEFAULT },
+	{ tipo: 'marca',   etiqueta: 'Marcas',            defaults: MARCAS_DEFAULT },
+	{ tipo: 'motivo',  etiqueta: 'Motivos de envío',  defaults: MOTIVOS_ENVIO_DEFAULT }
+];
+
+export interface Catalogo {
+	id?: number;
+	tipo: TipoCatalogo;
+	valor: string;
+	creado?: string;
+}
+
+export async function listarCatalogo(tipo: TipoCatalogo): Promise<Catalogo[]> {
+	const { data, error } = await supabase
+		.from('catalogos')
+		.select('*')
+		.eq('tipo', tipo)
+		.order('valor');
+	if (error) {
+		console.warn('catalogos listar', error.message);
+		return [];
+	}
+	return (data ?? []) as Catalogo[];
+}
+
+export async function agregarCatalogo(tipo: TipoCatalogo, valor: string) {
+	const v = valor.trim();
+	if (!v) return { error: 'El valor no puede estar vacío.' };
+	return await supabase.from('catalogos').insert({ tipo, valor: v });
+}
+
+export async function eliminarCatalogo(id: number) {
+	return await supabase.from('catalogos').delete().eq('id', id);
+}
+
+// Mezcla valores por defecto + personalizados (sin duplicados, ordenados)
+export function combinarCatalogo(defaults: string[], extras: Catalogo[]): string[] {
+	const set = new Set<string>();
+	defaults.forEach((d) => set.add(d));
+	extras.forEach((e) => set.add(e.valor));
+	return Array.from(set).sort((a, b) => a.localeCompare(b, 'es'));
+}
 
 // Normaliza patente chilena a formato con guión:
 //   abcd12 → ABCD-12  (nueva, 4L+2D)

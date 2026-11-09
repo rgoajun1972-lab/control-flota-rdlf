@@ -1,8 +1,22 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import {
-		supabase, LEASINGS, TIPOS_ENVIO, MOTIVOS_ENVIO, SI_NO,
+		supabase, LEASINGS_DEFAULT, MOTIVOS_ENVIO_DEFAULT,
+		TIPOS_ENVIO, SI_NO,
+		listarCatalogo, combinarCatalogo,
 		parseFecha, formatFechaDMY, type EnvioTaller, type Movil
 	} from '#lib/supabase';
+
+	let LEASINGS = $state<string[]>(LEASINGS_DEFAULT);
+	let MOTIVOS_ENVIO = $state<string[]>(MOTIVOS_ENVIO_DEFAULT);
+
+	onMount(async () => {
+		const [l, mo] = await Promise.all([
+			listarCatalogo('leasing'), listarCatalogo('motivo')
+		]);
+		LEASINGS = combinarCatalogo(LEASINGS_DEFAULT, l);
+		MOTIVOS_ENVIO = combinarCatalogo(MOTIVOS_ENVIO_DEFAULT, mo);
+	});
 
 	interface Props {
 		item: EnvioTaller | null;

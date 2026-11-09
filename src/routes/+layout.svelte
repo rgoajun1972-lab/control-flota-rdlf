@@ -13,7 +13,7 @@
 		{ href: '/reemplazos', label: 'Flota Reemplazos' },
 		{ href: '/taller', label: 'Taller' },
 		{ href: '/historial', label: 'Historial' },
-		{ href: '/dashboard', label: 'Dashboard' }
+		{ href: '/catalogos', label: 'Catálogos' }
 	];
 
 	let activeHref = $derived(page.url.pathname);

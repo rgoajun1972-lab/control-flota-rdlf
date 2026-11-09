@@ -1,6 +1,22 @@
 ﻿<script lang="ts">
-	import { supabase, AREAS, LEASINGS, formatFechaDMY, type Movil } from '#lib/supabase';
+	import { onMount } from 'svelte';
+	import {
+		supabase, AREAS_DEFAULT, LEASINGS_DEFAULT,
+		listarCatalogo, combinarCatalogo,
+		formatFechaDMY, type Movil
+	} from '#lib/supabase';
 	import ModalMovil from './ModalMovil.svelte';
+
+	let AREAS = $state<string[]>(AREAS_DEFAULT);
+	let LEASINGS = $state<string[]>(LEASINGS_DEFAULT);
+
+	onMount(async () => {
+		const [a, l] = await Promise.all([
+			listarCatalogo('area'), listarCatalogo('leasing')
+		]);
+		AREAS = combinarCatalogo(AREAS_DEFAULT, a);
+		LEASINGS = combinarCatalogo(LEASINGS_DEFAULT, l);
+	});
 
 	interface Props {
 		titulo: string;
