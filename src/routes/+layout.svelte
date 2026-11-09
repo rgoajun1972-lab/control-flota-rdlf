@@ -76,7 +76,7 @@
 						<img
 							src="/logo_ruta_fruta.png"
 							alt="Ruta de la Fruta"
-							class="hidden h-10 w-auto sm:inline-block"
+							class="hidden h-16 w-auto sm:inline-block"
 							onerror={() => (logoOk = false)}
 						/>
 					{:else}
@@ -100,7 +100,7 @@
 					</div>
 				{/if}
 			</div>
-			<nav class="order-3 flex w-full gap-2 overflow-x-auto sm:order-2 sm:w-auto">
+			<nav class="order-3 flex w-full gap-2 overflow-x-auto sm:order-2 sm:ml-12 sm:w-auto">
 				{#each tabs as t (t.href)}
 					<a
 						href={t.href}

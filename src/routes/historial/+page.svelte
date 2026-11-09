@@ -172,37 +172,37 @@
 		</div>
 	{:else}
 		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
-			<table class="w-full text-sm table-fixed select-none">
-				<thead class="bg-slate-700 text-xs font-bold text-white uppercase tracking-wider dark:bg-slate-950 dark:text-slate-100">
+			<table class="w-full text-xs table-fixed select-none">
+				<thead class="bg-slate-700 text-[11px] font-bold text-white uppercase tracking-wide dark:bg-slate-950 dark:text-slate-100">
 					<tr>
-						<th class="px-2 py-3 text-center w-12">#</th>
-						<th class="px-2 py-3 text-center">Móvil</th>
-						<th class="px-2 py-3 text-center">Taller</th>
-						<th class="px-2 py-3 text-center">Tipo</th>
-						<th class="px-2 py-3 text-center">Motivo</th>
-						<th class="px-2 py-3 text-center w-24">Ingreso</th>
-						<th class="px-2 py-3 text-center w-24">Salida</th>
-						<th class="px-2 py-3 text-center w-16">Días</th>
-						<th class="px-2 py-3 text-center">Reemplazo</th>
-						<th class="px-2 py-3 text-center">Estado</th>
-						<th class="px-2 py-3 text-center">Acciones</th>
+						<th class="px-1.5 py-2.5 text-center w-12 whitespace-nowrap">#</th>
+						<th class="px-1.5 py-2.5 text-center w-20 whitespace-nowrap">Móvil</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Taller</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Tipo</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Motivo</th>
+						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">Ingreso</th>
+						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">Salida</th>
+						<th class="px-1.5 py-2.5 text-center w-14 whitespace-nowrap">Días</th>
+						<th class="px-1.5 py-2.5 text-center w-20 whitespace-nowrap">Reemplazo</th>
+						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">Estado</th>
+						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
 					{#each filtrados as r (r.id)}
 						<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 {colorEstado(r)}">
-							<td class="px-2 py-3 text-center align-middle font-mono text-xs">{r.id}</td>
-							<td class="px-2 py-3 text-center align-middle font-mono font-semibold break-words">{r.moviles?.patente ?? `#${r.movil_id}`}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{r.taller}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{r.tipo ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{r.motivo ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_ingreso)}</td>
-							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_salida_real) || '—'}</td>
-							<td class="px-2 py-3 text-center align-middle">{diasEntre(r.fecha_ingreso, r.fecha_salida_real) ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{r.reemplazo?.patente ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{estadoTexto(r)}</td>
-							<td class="px-2 py-3 text-center align-middle">
-								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar de historial" onclick={() => eliminar(r)}>🗑 Eliminar</button>
+							<td class="px-1.5 py-2 text-center align-middle font-mono text-[11px]">{r.id}</td>
+							<td class="px-1.5 py-2 text-center align-middle font-mono font-semibold break-words">{r.moviles?.patente ?? `#${r.movil_id}`}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{r.taller}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{r.tipo ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{r.motivo ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_ingreso)}</td>
+							<td class="px-1.5 py-2 text-center align-middle whitespace-nowrap">{formatFechaDMY(r.fecha_salida_real) || '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle">{diasEntre(r.fecha_ingreso, r.fecha_salida_real) ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{r.reemplazo?.patente ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle whitespace-nowrap">{estadoTexto(r)}</td>
+							<td class="px-1.5 py-2 text-center align-middle">
+								<button class="rounded-md px-1.5 py-1 text-[11px] whitespace-nowrap text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar de historial" onclick={() => eliminar(r)}>🗑 Eliminar</button>
 							</td>
 						</tr>
 					{/each}

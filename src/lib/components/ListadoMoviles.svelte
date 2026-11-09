@@ -132,44 +132,44 @@
 		</div>
 	{:else}
 		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
-			<table class="w-full text-sm table-fixed select-none">
-				<thead class="bg-slate-700 text-xs font-bold text-white uppercase tracking-wider dark:bg-slate-950 dark:text-slate-100">
+			<table class="w-full text-xs table-fixed select-none">
+				<thead class="bg-slate-700 text-[11px] font-bold text-white uppercase tracking-wide dark:bg-slate-950 dark:text-slate-100">
 					<tr>
-						<th class="px-2 py-3 text-center w-24">Patente</th>
-						<th class="px-2 py-3 text-center">Área</th>
-						<th class="px-2 py-3 text-center">Marca · Modelo</th>
-						<th class="px-2 py-3 text-center w-14">Año</th>
-						<th class="px-2 py-3 text-center">Leasing</th>
-						<th class="px-2 py-3 text-center">Responsable</th>
-						<th class="px-2 py-3 text-center w-14">Chevron</th>
-						<th class="px-2 py-3 text-center w-24">Fin Leasing</th>
-						<th class="px-2 py-3 text-center w-24">Estado</th>
-						<th class="px-2 py-3 text-center w-64">Acciones</th>
+						<th class="px-1.5 py-2.5 text-center w-20 whitespace-nowrap">Patente</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Área</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Marca · Modelo</th>
+						<th class="px-1.5 py-2.5 text-center w-12 whitespace-nowrap">Año</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Leasing</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Responsable</th>
+						<th class="px-1.5 py-2.5 text-center w-20 whitespace-nowrap">Chevron</th>
+						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">Fin Leasing</th>
+						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">Estado</th>
+						<th class="px-1.5 py-2.5 text-center w-64 whitespace-nowrap">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100 text-slate-800 dark:divide-slate-800 dark:text-slate-200">
 					{#each filtrados as m (m.id)}
 						<tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
-							<td class="px-2 py-3 text-center align-middle font-mono font-semibold break-words">{m.patente}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{m.area ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{[m.marca, m.modelo].filter(Boolean).join(' ') || '—'}</td>
-							<td class="px-2 py-3 text-center align-middle">{m.anio ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{m.leasing ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{m.responsable ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle">{m.chevron ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">{formatFechaDMY(m.fecha_alta)}</td>
-							<td class="px-2 py-3 text-center align-middle">
-								<span class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium whitespace-nowrap {colorEstado(m.estado)}">
+							<td class="px-1.5 py-2 text-center align-middle font-mono font-semibold break-words">{m.patente}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{m.area ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{[m.marca, m.modelo].filter(Boolean).join(' ') || '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle">{m.anio ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{m.leasing ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{m.responsable ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle">{m.chevron ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle text-[11px] text-slate-500 dark:text-slate-400 whitespace-nowrap">{formatFechaDMY(m.fecha_alta)}</td>
+							<td class="px-1.5 py-2 text-center align-middle">
+								<span class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium whitespace-nowrap {colorEstado(m.estado)}">
 									● {m.estado}
 								</span>
 							</td>
-							<td class="px-2 py-3 text-center align-middle">
+							<td class="px-1.5 py-2 text-center align-middle">
 								<div class="inline-flex flex-nowrap items-center justify-center gap-1">
-									<button class="rounded-md px-1.5 py-1 text-xs whitespace-nowrap text-slate-700 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed dark:text-slate-300 dark:hover:bg-slate-700"
+									<button class="rounded-md px-1.5 py-1 text-[11px] whitespace-nowrap text-slate-700 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed dark:text-slate-300 dark:hover:bg-slate-700"
 										title="Editar" onclick={() => abrirEdicion(m)} disabled={m.estado === 'En taller'}>✎ Editar</button>
-									<button class="rounded-md px-1.5 py-1 text-xs whitespace-nowrap text-amber-700 hover:bg-amber-100 dark:text-amber-300 dark:hover:bg-amber-900/40"
+									<button class="rounded-md px-1.5 py-1 text-[11px] whitespace-nowrap text-amber-700 hover:bg-amber-100 dark:text-amber-300 dark:hover:bg-amber-900/40"
 										title="Enviar a taller" onclick={() => enviarATaller(m)}>🔧 A taller</button>
-									<button class="rounded-md px-1.5 py-1 text-xs whitespace-nowrap text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
+									<button class="rounded-md px-1.5 py-1 text-[11px] whitespace-nowrap text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
 										title="Eliminar" onclick={() => eliminar(m)}>🗑 Eliminar</button>
 								</div>
 							</td>

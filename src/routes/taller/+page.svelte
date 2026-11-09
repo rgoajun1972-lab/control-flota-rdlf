@@ -107,19 +107,19 @@
 		</div>
 	{:else}
 		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
-			<table class="w-full text-sm table-fixed select-none">
-				<thead class="bg-slate-700 text-xs font-bold text-white uppercase tracking-wider dark:bg-slate-950 dark:text-slate-100">
+			<table class="w-full text-xs table-fixed select-none">
+				<thead class="bg-slate-700 text-[11px] font-bold text-white uppercase tracking-wide dark:bg-slate-950 dark:text-slate-100">
 					<tr>
-						<th class="px-2 py-3 text-center">Móvil</th>
-						<th class="px-2 py-3 text-center">Taller</th>
-						<th class="px-2 py-3 text-center">Tipo</th>
-						<th class="px-2 py-3 text-center">Motivo</th>
-						<th class="px-2 py-3 text-center w-24">F. envío</th>
-						<th class="px-2 py-3 text-center w-20">Días</th>
-						<th class="px-2 py-3 text-center">Reemplazo</th>
-						<th class="px-2 py-3 text-center w-24">Llegada rep.</th>
-						<th class="px-2 py-3 text-center w-14">TCT</th>
-						<th class="px-2 py-3 text-center w-56">Acciones</th>
+						<th class="px-1.5 py-2.5 text-center w-20 whitespace-nowrap">Móvil</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Taller</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Tipo</th>
+						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Motivo</th>
+						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">F. envío</th>
+						<th class="px-1.5 py-2.5 text-center w-14 whitespace-nowrap">Días</th>
+						<th class="px-1.5 py-2.5 text-center w-20 whitespace-nowrap">Reemplazo</th>
+						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">Llegada rep.</th>
+						<th class="px-1.5 py-2.5 text-center w-14 whitespace-nowrap">TCT</th>
+						<th class="px-1.5 py-2.5 text-center w-56 whitespace-nowrap">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
@@ -127,20 +127,20 @@
 						{@const dias = diasEntre(e.fecha_ingreso, null) ?? 0}
 						{@const rojo = dias > 30}
 						<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 {rojo ? 'text-red-700 dark:text-red-400' : 'text-amber-700 dark:text-amber-300'}">
-							<td class="px-2 py-3 text-center align-middle font-mono font-semibold break-words">{e.moviles?.patente ?? `#${e.movil_id}`}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{e.taller}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{e.tipo ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{e.motivo ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(e.fecha_ingreso)}</td>
-							<td class="px-2 py-3 text-center align-middle">{dias}</td>
-							<td class="px-2 py-3 text-center align-middle break-words">{e.reemplazo?.patente ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{formatFechaDMY(e.reemplazo_fecha_llegada) || '—'}</td>
-							<td class="px-2 py-3 text-center align-middle">{e.reemplazo_tct ?? '—'}</td>
-							<td class="px-2 py-3 text-center align-middle">
-								<div class="inline-flex flex-wrap justify-center gap-1">
-									<button class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700" title="Editar" onclick={() => abrirEdicion(e)}>✎ Editar</button>
-									<button class="rounded-md px-2 py-1 text-xs text-emerald-700 hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40" title="Marcar salida" onclick={() => marcarSalida(e)}>✓ Salida</button>
-									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar" onclick={() => eliminarEnvio(e)}>🗑 Eliminar</button>
+							<td class="px-1.5 py-2 text-center align-middle font-mono font-semibold break-words">{e.moviles?.patente ?? `#${e.movil_id}`}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{e.taller}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{e.tipo ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{e.motivo ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle whitespace-nowrap">{formatFechaDMY(e.fecha_ingreso)}</td>
+							<td class="px-1.5 py-2 text-center align-middle">{dias}</td>
+							<td class="px-1.5 py-2 text-center align-middle break-words">{e.reemplazo?.patente ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle whitespace-nowrap">{formatFechaDMY(e.reemplazo_fecha_llegada) || '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle">{e.reemplazo_tct ?? '—'}</td>
+							<td class="px-1.5 py-2 text-center align-middle">
+								<div class="inline-flex flex-nowrap items-center justify-center gap-1">
+									<button class="rounded-md px-1.5 py-1 text-[11px] whitespace-nowrap text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700" title="Editar" onclick={() => abrirEdicion(e)}>✎ Editar</button>
+									<button class="rounded-md px-1.5 py-1 text-[11px] whitespace-nowrap text-emerald-700 hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40" title="Marcar salida" onclick={() => marcarSalida(e)}>✓ Salida</button>
+									<button class="rounded-md px-1.5 py-1 text-[11px] whitespace-nowrap text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar" onclick={() => eliminarEnvio(e)}>🗑 Eliminar</button>
 								</div>
 							</td>
 						</tr>
