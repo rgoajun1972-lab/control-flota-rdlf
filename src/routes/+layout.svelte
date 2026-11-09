@@ -59,7 +59,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
-		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital@1&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
 		rel="stylesheet"
 	/>
 	<title>Control de Flota · Ruta de la Fruta</title>
@@ -71,7 +71,7 @@
 		<div class="mx-auto flex w-full flex-wrap items-center gap-6 px-6 py-5">
 			<div class="flex flex-col">
 				<div class="flex items-center gap-3">
-					<span class="font-brand text-5xl font-bold text-sky-900 dark:text-sky-300">Control de Flota</span>
+					<span class="font-brand text-4xl font-extrabold text-sky-900 dark:text-sky-300">Control de Flota</span>
 					{#if logoOk}
 						<img
 							src="/logo_ruta_fruta.png"
