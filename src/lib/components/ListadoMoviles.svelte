@@ -135,16 +135,16 @@
 			<table class="w-full text-sm table-fixed select-none">
 				<thead class="bg-slate-700 text-xs font-bold text-white uppercase tracking-wider dark:bg-slate-950 dark:text-slate-100">
 					<tr>
-						<th class="px-2 py-3 text-center">Patente</th>
+						<th class="px-2 py-3 text-center w-24">Patente</th>
 						<th class="px-2 py-3 text-center">Área</th>
 						<th class="px-2 py-3 text-center">Marca · Modelo</th>
 						<th class="px-2 py-3 text-center w-14">Año</th>
 						<th class="px-2 py-3 text-center">Leasing</th>
 						<th class="px-2 py-3 text-center">Responsable</th>
-						<th class="px-2 py-3 text-center w-20">Chevron</th>
+						<th class="px-2 py-3 text-center w-14">Chevron</th>
 						<th class="px-2 py-3 text-center w-24">Fecha alta</th>
-						<th class="px-2 py-3 text-center">Estado</th>
-						<th class="px-2 py-3 text-center w-56">Acciones</th>
+						<th class="px-2 py-3 text-center w-24">Estado</th>
+						<th class="px-2 py-3 text-center w-64">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100 text-slate-800 dark:divide-slate-800 dark:text-slate-200">
@@ -164,12 +164,12 @@
 								</span>
 							</td>
 							<td class="px-2 py-3 text-center align-middle">
-								<div class="inline-flex flex-wrap justify-center gap-1">
-									<button class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed dark:text-slate-300 dark:hover:bg-slate-700"
+								<div class="inline-flex flex-nowrap items-center justify-center gap-1">
+									<button class="rounded-md px-1.5 py-1 text-xs whitespace-nowrap text-slate-700 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed dark:text-slate-300 dark:hover:bg-slate-700"
 										title="Editar" onclick={() => abrirEdicion(m)} disabled={m.estado === 'En taller'}>✎ Editar</button>
-									<button class="rounded-md px-2 py-1 text-xs text-amber-700 hover:bg-amber-100 dark:text-amber-300 dark:hover:bg-amber-900/40"
+									<button class="rounded-md px-1.5 py-1 text-xs whitespace-nowrap text-amber-700 hover:bg-amber-100 dark:text-amber-300 dark:hover:bg-amber-900/40"
 										title="Enviar a taller" onclick={() => enviarATaller(m)}>🔧 A taller</button>
-									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
+									<button class="rounded-md px-1.5 py-1 text-xs whitespace-nowrap text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
 										title="Eliminar" onclick={() => eliminar(m)}>🗑 Eliminar</button>
 								</div>
 							</td>
