@@ -202,7 +202,7 @@
 							<td class="px-2 py-3 text-center align-middle break-words">{r.reemplazo?.patente ?? '—'}</td>
 							<td class="px-2 py-3 text-center align-middle whitespace-nowrap">{estadoTexto(r)}</td>
 							<td class="px-2 py-3 text-center align-middle">
-								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar de historial" onclick={() => eliminar(r)}>🗑</button>
+								<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar de historial" onclick={() => eliminar(r)}>🗑 Eliminar</button>
 							</td>
 						</tr>
 					{/each}

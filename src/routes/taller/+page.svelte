@@ -119,7 +119,7 @@
 						<th class="px-2 py-3 text-center">Reemplazo</th>
 						<th class="px-2 py-3 text-center w-24">Llegada rep.</th>
 						<th class="px-2 py-3 text-center w-14">TCT</th>
-						<th class="px-2 py-3 text-center">Acciones</th>
+						<th class="px-2 py-3 text-center w-56">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
@@ -138,9 +138,9 @@
 							<td class="px-2 py-3 text-center align-middle">{e.reemplazo_tct ?? '—'}</td>
 							<td class="px-2 py-3 text-center align-middle">
 								<div class="inline-flex flex-wrap justify-center gap-1">
-									<button class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700" title="Editar" onclick={() => abrirEdicion(e)}>✎</button>
-									<button class="rounded-md px-2 py-1 text-xs text-emerald-700 hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40" title="Marcar salida" onclick={() => marcarSalida(e)}>✓</button>
-									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar" onclick={() => eliminarEnvio(e)}>🗑</button>
+									<button class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700" title="Editar" onclick={() => abrirEdicion(e)}>✎ Editar</button>
+									<button class="rounded-md px-2 py-1 text-xs text-emerald-700 hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40" title="Marcar salida" onclick={() => marcarSalida(e)}>✓ Salida</button>
+									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40" title="Eliminar" onclick={() => eliminarEnvio(e)}>🗑 Eliminar</button>
 								</div>
 							</td>
 						</tr>

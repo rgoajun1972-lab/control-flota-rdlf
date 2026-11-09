@@ -144,7 +144,7 @@
 						<th class="px-2 py-3 text-center w-20">Chevron</th>
 						<th class="px-2 py-3 text-center w-24">Fecha alta</th>
 						<th class="px-2 py-3 text-center">Estado</th>
-						<th class="px-2 py-3 text-center">Acciones</th>
+						<th class="px-2 py-3 text-center w-56">Acciones</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-slate-100 text-slate-800 dark:divide-slate-800 dark:text-slate-200">
@@ -165,12 +165,12 @@
 							</td>
 							<td class="px-2 py-3 text-center align-middle">
 								<div class="inline-flex flex-wrap justify-center gap-1">
-									<button class="rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-200 hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white"
-										title="Editar" onclick={() => abrirEdicion(m)} disabled={m.estado === 'En taller'}>✎</button>
+									<button class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed dark:text-slate-300 dark:hover:bg-slate-700"
+										title="Editar" onclick={() => abrirEdicion(m)} disabled={m.estado === 'En taller'}>✎ Editar</button>
 									<button class="rounded-md px-2 py-1 text-xs text-amber-700 hover:bg-amber-100 dark:text-amber-300 dark:hover:bg-amber-900/40"
-										title="Enviar a taller" onclick={() => enviarATaller(m)}>🔧</button>
+										title="Enviar a taller" onclick={() => enviarATaller(m)}>🔧 A taller</button>
 									<button class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
-										title="Eliminar" onclick={() => eliminar(m)}>🗑</button>
+										title="Eliminar" onclick={() => eliminar(m)}>🗑 Eliminar</button>
 								</div>
 							</td>
 						</tr>
