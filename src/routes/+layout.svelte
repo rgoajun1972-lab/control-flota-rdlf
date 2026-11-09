@@ -4,6 +4,7 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import { page } from '$app/state';
 	import { aplicarTema, temaInicial, type Tema } from '#lib/tema';
+	import { obtenerUltimoCatalogo } from '#lib/supabase';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
@@ -22,10 +23,32 @@
 
 	let tema = $state<Tema>('claro');
 	let logoOk = $state(true);
+	let encargado = $state<string | null>(null);
+	let cargo = $state<string | null>(null);
+
+	async function recargarEncargado() {
+		const [e, c] = await Promise.all([
+			obtenerUltimoCatalogo('encargado'),
+			obtenerUltimoCatalogo('cargo')
+		]);
+		encargado = e;
+		cargo = c;
+	}
 
 	onMount(() => {
 		tema = temaInicial();
 		aplicarTema(tema);
+		recargarEncargado();
+	});
+
+	// Al volver a la pestaña o cambiar de ruta, refresco por si el usuario editó
+	// el encargado desde /catalogos
+	let activeHrefPrev = '';
+	$effect(() => {
+		if (activeHref !== activeHrefPrev) {
+			activeHrefPrev = activeHref;
+			recargarEncargado();
+		}
 	});
 
 	function alternarTema() {
@@ -49,17 +72,29 @@
 	style="font-family: Inter, system-ui, sans-serif;">
 	<header class="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
 		<div class="mx-auto flex w-full flex-wrap items-center gap-6 px-6 py-5">
-			<div class="flex items-center gap-3">
-				<span class="font-brand text-3xl text-sky-900 dark:text-sky-300">Control de Flota</span>
-				{#if logoOk}
-					<img
-						src="/logo_ruta_fruta.png"
-						alt="Ruta de la Fruta"
-						class="hidden h-10 w-auto sm:inline-block"
-						onerror={() => (logoOk = false)}
-					/>
-				{:else}
-					<span class="hidden text-sm text-slate-500 dark:text-slate-400 sm:inline">· Ruta de la Fruta</span>
+			<div class="flex flex-col">
+				<div class="flex items-center gap-3">
+					<span class="font-brand text-3xl text-sky-900 dark:text-sky-300">Control de Flota</span>
+					{#if logoOk}
+						<img
+							src="/logo_ruta_fruta.png"
+							alt="Ruta de la Fruta"
+							class="hidden h-10 w-auto sm:inline-block"
+							onerror={() => (logoOk = false)}
+						/>
+					{:else}
+						<span class="hidden text-sm text-slate-500 dark:text-slate-400 sm:inline">· Ruta de la Fruta</span>
+					{/if}
+				</div>
+				{#if encargado || cargo}
+					<div class="mt-0.5 text-xs leading-tight text-slate-600 dark:text-slate-400">
+						{#if encargado}
+							<span class="font-semibold text-slate-800 dark:text-slate-200">{encargado}</span>
+						{/if}
+						{#if cargo}
+							<span class="block text-slate-500 dark:text-slate-400">{cargo}</span>
+						{/if}
+					</div>
 				{/if}
 			</div>
 			<nav class="order-3 flex w-full gap-1 overflow-x-auto sm:order-2 sm:w-auto">

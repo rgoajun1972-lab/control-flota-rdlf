@@ -58,13 +58,15 @@ export const MARCAS = MARCAS_DEFAULT;
 // Permite agregar/eliminar valores extra desde la UI /catalogos.
 // Los DEFAULTS de arriba son fijos; los personalizados se guardan en BD.
 // ===================================================================
-export type TipoCatalogo = 'area' | 'leasing' | 'marca' | 'motivo';
+export type TipoCatalogo = 'area' | 'leasing' | 'marca' | 'motivo' | 'encargado' | 'cargo';
 
 export const CATALOGOS: { tipo: TipoCatalogo; etiqueta: string; defaults: string[] }[] = [
-	{ tipo: 'area',    etiqueta: 'Áreas',             defaults: AREAS_DEFAULT },
-	{ tipo: 'leasing', etiqueta: 'Empresas de leasing', defaults: LEASINGS_DEFAULT },
-	{ tipo: 'marca',   etiqueta: 'Marcas',            defaults: MARCAS_DEFAULT },
-	{ tipo: 'motivo',  etiqueta: 'Motivos de envío',  defaults: MOTIVOS_ENVIO_DEFAULT }
+	{ tipo: 'area',      etiqueta: 'Áreas',               defaults: AREAS_DEFAULT },
+	{ tipo: 'leasing',   etiqueta: 'Empresas de leasing', defaults: LEASINGS_DEFAULT },
+	{ tipo: 'marca',     etiqueta: 'Marcas',              defaults: MARCAS_DEFAULT },
+	{ tipo: 'motivo',    etiqueta: 'Motivos de envío',    defaults: MOTIVOS_ENVIO_DEFAULT },
+	{ tipo: 'encargado', etiqueta: 'Encargado de Flota',  defaults: [] },
+	{ tipo: 'cargo',     etiqueta: 'Cargo',               defaults: [] }
 ];
 
 export interface Catalogo {
@@ -85,6 +87,18 @@ export async function listarCatalogo(tipo: TipoCatalogo): Promise<Catalogo[]> {
 		return [];
 	}
 	return (data ?? []) as Catalogo[];
+}
+
+// Devuelve el valor más recientemente agregado de un tipo (o null si no hay)
+export async function obtenerUltimoCatalogo(tipo: TipoCatalogo): Promise<string | null> {
+	const { data, error } = await supabase
+		.from('catalogos')
+		.select('valor')
+		.eq('tipo', tipo)
+		.order('creado', { ascending: false })
+		.limit(1);
+	if (error || !data || data.length === 0) return null;
+	return data[0].valor;
 }
 
 export async function agregarCatalogo(tipo: TipoCatalogo, valor: string) {
