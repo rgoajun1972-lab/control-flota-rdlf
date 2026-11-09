@@ -93,6 +93,12 @@ export async function agregarCatalogo(tipo: TipoCatalogo, valor: string) {
 	return await supabase.from('catalogos').insert({ tipo, valor: v });
 }
 
+export async function editarCatalogo(id: number, valor: string) {
+	const v = valor.trim();
+	if (!v) return { error: 'El valor no puede estar vacío.' };
+	return await supabase.from('catalogos').update({ valor: v }).eq('id', id);
+}
+
 export async function eliminarCatalogo(id: number) {
 	return await supabase.from('catalogos').delete().eq('id', id);
 }

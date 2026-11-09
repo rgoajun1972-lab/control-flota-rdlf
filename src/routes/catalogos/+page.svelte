@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import {
-		CATALOGOS, listarCatalogo, agregarCatalogo, eliminarCatalogo,
+		CATALOGOS, listarCatalogo, agregarCatalogo, editarCatalogo, eliminarCatalogo,
 		combinarCatalogo, type TipoCatalogo, type Catalogo
 	} from '#lib/supabase';
 
@@ -11,6 +11,10 @@
 	let cargando = $state(true);
 	let guardando = $state(false);
 	let mensaje = $state<{ tipo: 'ok' | 'err'; texto: string } | null>(null);
+
+	// edición inline
+	let editandoId = $state<number | null>(null);
+	let editValor = $state('');
 
 	let cfg = $derived(CATALOGOS.find((c) => c.tipo === tipo)!);
 	let lista = $derived(combinarCatalogo(cfg.defaults, extras));
@@ -61,6 +65,46 @@
 			return;
 		}
 		mensaje = { tipo: 'ok', texto: `"${valor}" eliminado.` };
+		await recargar();
+	}
+
+	function comenzarEdicion(valor: string) {
+		mensaje = null;
+		if (esDefault(valor)) {
+			mensaje = { tipo: 'err', texto: `"${valor}" es un valor por defecto, no se puede editar.` };
+			return;
+		}
+		const id = buscarId(valor);
+		if (!id) return;
+		editandoId = id;
+		editValor = valor;
+	}
+
+	function cancelarEdicion() {
+		editandoId = null;
+		editValor = '';
+	}
+
+	async function guardarEdicion() {
+		if (editandoId === null) return;
+		const v = editValor.trim();
+		if (!v) {
+			mensaje = { tipo: 'err', texto: 'El valor no puede estar vacío.' };
+			return;
+		}
+		const original = extras.find((e) => e.id === editandoId)?.valor;
+		if (v === original) { cancelarEdicion(); return; }
+		if (lista.includes(v)) {
+			mensaje = { tipo: 'err', texto: `"${v}" ya existe en la lista.` };
+			return;
+		}
+		const res = await editarCatalogo(editandoId, v);
+		if (res.error) {
+			mensaje = { tipo: 'err', texto: res.error.message };
+			return;
+		}
+		mensaje = { tipo: 'ok', texto: `"${original}" → "${v}".` };
+		cancelarEdicion();
 		await recargar();
 	}
 </script>
@@ -130,29 +174,65 @@
 		{:else}
 			<ul class="divide-y divide-slate-100 dark:divide-slate-800">
 				{#each lista as v (v)}
-					<li class="flex items-center justify-between px-4 py-2.5">
-						<div class="flex items-center gap-3">
-							<span class="text-sm text-slate-800 dark:text-slate-100">{v}</span>
-							{#if esDefault(v)}
-								<span class="rounded-full border border-slate-300 bg-slate-50 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400">
-									por defecto
-								</span>
-							{:else}
-								<span class="rounded-full border border-emerald-300 bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700 dark:border-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
-									personalizado
-								</span>
-							{/if}
-						</div>
-						{#if !esDefault(v)}
-							<button
-								onclick={() => eliminar(v)}
-								class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
-								title="Eliminar"
+					{@const idFila = buscarId(v)}
+					{@const editando = editandoId !== null && idFila === editandoId}
+					<li class="flex items-center justify-between gap-3 px-4 py-2.5">
+						{#if editando}
+							<form
+								class="flex flex-1 items-center gap-2"
+								onsubmit={(e) => { e.preventDefault(); guardarEdicion(); }}
 							>
-								🗑 Eliminar
-							</button>
+								<input
+									bind:value={editValor}
+									class="flex-1 rounded-md border border-sky-400 bg-white px-2 py-1.5 text-sm text-slate-800 outline-none ring-2 ring-sky-200 dark:border-sky-500 dark:bg-slate-800 dark:text-slate-100 dark:ring-sky-900"
+								/>
+								<button
+									type="submit"
+									class="rounded-md bg-sky-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-sky-700"
+								>
+									Guardar
+								</button>
+								<button
+									type="button"
+									onclick={cancelarEdicion}
+									class="rounded-md px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+								>
+									Cancelar
+								</button>
+							</form>
 						{:else}
-							<span class="text-xs italic text-slate-400 dark:text-slate-500">no se puede eliminar</span>
+							<div class="flex items-center gap-3">
+								<span class="text-sm text-slate-800 dark:text-slate-100">{v}</span>
+								{#if esDefault(v)}
+									<span class="rounded-full border border-slate-300 bg-slate-50 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400">
+										por defecto
+									</span>
+								{:else}
+									<span class="rounded-full border border-emerald-300 bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700 dark:border-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+										personalizado
+									</span>
+								{/if}
+							</div>
+							{#if !esDefault(v)}
+								<div class="flex items-center gap-1">
+									<button
+										onclick={() => comenzarEdicion(v)}
+										class="rounded-md px-2 py-1 text-xs text-slate-700 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700"
+										title="Editar"
+									>
+										✎ Editar
+									</button>
+									<button
+										onclick={() => eliminar(v)}
+										class="rounded-md px-2 py-1 text-xs text-red-700 hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40"
+										title="Eliminar"
+									>
+										🗑 Eliminar
+									</button>
+								</div>
+							{:else}
+								<span class="text-xs italic text-slate-400 dark:text-slate-500">no se puede editar/eliminar</span>
+							{/if}
 						{/if}
 					</li>
 				{/each}

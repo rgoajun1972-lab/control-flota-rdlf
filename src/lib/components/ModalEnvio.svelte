@@ -30,7 +30,8 @@
 	const hoy = new Date().toISOString().slice(0, 10);
 
 	let moviles = $state<Movil[]>([]);
-	let reemplazos = $state<Movil[]>([]);
+	let reemplazosTodos = $state<Movil[]>([]);
+	let reemplazosOcupados = $state<Set<number>>(new Set());
 
 	// svelte-ignore state_referenced_locally
 	let movil_id = $state<number | null>(item?.movil_id ?? movilPreseleccionado ?? null);
@@ -53,11 +54,32 @@
 	let error = $state<string | null>(null);
 
 	async function cargarMoviles() {
-		const { data } = await supabase.from('moviles').select('*').order('patente');
-		moviles = data ?? [];
-		reemplazos = moviles.filter((m) => (m.rol ?? '') === 'Reemplazo');
+		const [mRes, eRes] = await Promise.all([
+			supabase.from('moviles').select('*').order('patente'),
+			supabase.from('envios_taller')
+				.select('id, reemplazo_movil_id')
+				.is('fecha_salida_real', null)
+		]);
+		moviles = mRes.data ?? [];
+		reemplazosTodos = moviles.filter((m) => (m.rol ?? '') === 'Reemplazo');
+
+		const ocupados = new Set<number>();
+		(eRes.data ?? []).forEach((e: { id: number; reemplazo_movil_id: number | null }) => {
+			// excluir el reemplazo del envío que estamos editando (lo mantenemos disponible para él)
+			if (e.reemplazo_movil_id && e.id !== item?.id) ocupados.add(e.reemplazo_movil_id);
+		});
+		reemplazosOcupados = ocupados;
+
+		// Autocompletar taller si entramos con un móvil preseleccionado
+		alElegirMovil();
 	}
 	cargarMoviles();
+
+	// Reemplazos disponibles = Rol Reemplazo y no están en otro envío abierto.
+	// Si ya había uno asignado al envío en edición, lo mantenemos en la lista.
+	let reemplazos = $derived(
+		reemplazosTodos.filter((r) => !reemplazosOcupados.has(r.id!) || r.id === item?.reemplazo_movil_id)
+	);
 
 	// Al elegir el móvil enviado, autocompletar Taller con su leasing (si Taller está vacío)
 	function alElegirMovil() {
@@ -69,7 +91,7 @@
 	// Al elegir el reemplazo, autocompletar fecha ingreso + TCT desde el móvil
 	function alElegirReemplazo() {
 		if (!reemplazo_movil_id) return;
-		const r = reemplazos.find((x) => x.id === reemplazo_movil_id);
+		const r = reemplazosTodos.find((x) => x.id === reemplazo_movil_id);
 		if (!r) return;
 		if (!reemplazo_fecha_llegada_in.trim() && r.fecha_alta) {
 			reemplazo_fecha_llegada_in = formatFechaDMY(r.fecha_alta);
