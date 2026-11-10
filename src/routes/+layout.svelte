@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import favicon from '#lib/assets/favicon.svg';
@@ -115,7 +115,11 @@
 					</a>
 				{/each}
 			</nav>
-			<div class="order-2 ml-auto flex items-center gap-2 sm:order-3">
+			<div class="order-2 ml-auto flex flex-col items-end gap-1 sm:order-3">
+				<span class="text-[10px] text-slate-500 dark:text-slate-400">
+					Elaborado por: <span class="font-semibold text-slate-600 dark:text-slate-300">René Orellana</span>
+				</span>
+				<div class="flex items-center gap-2">
 				<a
 					href="/moviles/nuevo"
 					class="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 shadow-sm"
@@ -150,6 +154,7 @@
 						</svg>
 					{/if}
 				</button>
+			</div>
 			</div>
 		</div>
 	</header>
