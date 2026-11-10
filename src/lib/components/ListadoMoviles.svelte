@@ -132,7 +132,7 @@
 		</div>
 	{:else}
 		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
-			<table class="w-full text-xs table-fixed select-none">
+			<table class="w-full text-xs table-fixed select-none font-table">
 				<thead class="bg-slate-700 text-[11px] font-bold text-white uppercase tracking-wide dark:bg-slate-950 dark:text-slate-100">
 					<tr>
 						<th class="px-1.5 py-2.5 text-center w-20 whitespace-nowrap">Patente</th>
@@ -149,7 +149,7 @@
 				</thead>
 				<tbody class="divide-y divide-slate-100 text-slate-800 dark:divide-slate-800 dark:text-slate-200">
 					{#each filtrados as m (m.id)}
-						<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 {m.estado === 'En taller' ? 'italic text-slate-400 dark:text-slate-500 opacity-70' : ''}">
+						<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 {m.estado === 'En taller' ? 'text-slate-400 dark:text-slate-500 opacity-70' : ''}">
 							<td class="px-1.5 py-2 text-center align-middle font-mono font-semibold break-words">{m.patente}</td>
 							<td class="px-1.5 py-2 text-center align-middle break-words">{m.area ?? '—'}</td>
 							<td class="px-1.5 py-2 text-center align-middle break-words">{[m.marca, m.modelo].filter(Boolean).join(' ') || '—'}</td>

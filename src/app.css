@@ -15,6 +15,13 @@
 	letter-spacing: -0.02em;
 }
 
+/* Fuente condensada para tablas: entra más info en el mismo ancho */
+.font-table {
+	font-family: 'Barlow Semi Condensed', 'Roboto Condensed', 'Inter',
+		system-ui, -apple-system, sans-serif;
+	letter-spacing: 0;
+}
+
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 10px; }

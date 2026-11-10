@@ -172,7 +172,7 @@
 		</div>
 	{:else}
 		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
-			<table class="w-full text-xs table-fixed select-none">
+			<table class="w-full text-xs table-fixed select-none font-table">
 				<thead class="bg-slate-700 text-[11px] font-bold text-white uppercase tracking-wide dark:bg-slate-950 dark:text-slate-100">
 					<tr>
 						<th class="px-1.5 py-2.5 text-center w-12 whitespace-nowrap">#</th>
