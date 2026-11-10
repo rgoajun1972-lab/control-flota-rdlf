@@ -14,7 +14,7 @@
 		{ href: '/reemplazos', label: 'Flota Reemplazos' },
 		{ href: '/taller', label: 'Taller' },
 		{ href: '/historial', label: 'Historial' },
-		{ href: '/catalogos', label: 'Catálogos' }
+		{ href: '/catalogos', label: 'Catálogos', config: true }
 	];
 
 	let activeHref = $derived(page.url.pathname);
@@ -104,13 +104,29 @@
 			</div>
 			<nav class="order-3 flex w-full gap-2 overflow-x-auto sm:order-2 sm:ml-12 sm:w-auto">
 				{#each tabs as t (t.href)}
+					{#if t.config}
+						<span class="mx-1 h-8 w-px self-center bg-slate-300 dark:bg-slate-600" aria-hidden="true"></span>
+					{/if}
 					<a
 						href={t.href}
-						class="rounded-xl px-6 py-3 text-base font-semibold whitespace-nowrap shadow-sm transition
-							{isActive(t.href)
-								? 'bg-sky-700 text-white dark:bg-sky-600'
-								: 'bg-white text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'}"
+						class="inline-flex items-center gap-1.5 whitespace-nowrap font-semibold transition
+							{t.config
+								? 'rounded-xl px-5 py-3 text-sm border border-dashed shadow-none '
+									+ (isActive(t.href)
+										? 'border-slate-500 bg-slate-700 text-white dark:border-slate-400 dark:bg-slate-700'
+										: 'border-slate-400 text-slate-600 hover:bg-slate-100 dark:border-slate-500 dark:text-slate-300 dark:hover:bg-slate-800')
+								: 'rounded-xl px-6 py-3 text-base shadow-sm '
+									+ (isActive(t.href)
+										? 'bg-sky-700 text-white dark:bg-sky-600'
+										: 'bg-white text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700')}"
 					>
+						{#if t.config}
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+								fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="3"/>
+								<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+							</svg>
+						{/if}
 						{t.label}
 					</a>
 				{/each}
