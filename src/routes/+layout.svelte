@@ -22,7 +22,6 @@
 		href === '/' ? activeHref === '/' : activeHref.startsWith(href);
 
 	let tema = $state<Tema>('claro');
-	let logoOk = $state(true);
 	let encargado = $state<string | null>(null);
 	let cargo = $state<string | null>(null);
 
@@ -72,16 +71,19 @@
 			<div class="flex flex-col">
 				<div class="flex items-center gap-3">
 					<span class="font-brand text-4xl font-extrabold text-sky-900 dark:text-sky-300">Control de Flota</span>
-					{#if logoOk}
-						<img
-							src="/logo_ruta_fruta.png"
-							alt="Ruta de la Fruta"
-							class="hidden h-16 w-auto sm:inline-block"
-							onerror={() => (logoOk = false)}
-						/>
-					{:else}
-						<span class="hidden text-sm text-slate-500 dark:text-slate-400 sm:inline">· Ruta de la Fruta</span>
-					{/if}
+					<svg
+						viewBox="0 0 80 70"
+						xmlns="http://www.w3.org/2000/svg"
+						class="hidden h-14 w-auto sm:inline-block"
+						aria-label="Control de Flota"
+					>
+						<rect x="2" y="2" width="76" height="66" rx="12" fill="#0c4a6e" class="dark:fill-sky-900" />
+						<path d="M18 50 A22 22 0 0 1 62 50" stroke="#f8fafc" stroke-width="5" fill="none" stroke-linecap="round" />
+						<path d="M18 50 A22 22 0 0 1 22 38" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round" />
+						<path d="M18 50 L23 44 M40 28 L40 33 M62 50 L57 44" stroke="#f8fafc" stroke-width="2" stroke-linecap="round" />
+						<line x1="40" y1="50" x2="56" y2="36" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+						<circle cx="40" cy="50" r="3" fill="#f59e0b" />
+					</svg>
 				</div>
 				{#if encargado || cargo}
 					<div class="mt-1 space-y-0.5 text-xs leading-tight">

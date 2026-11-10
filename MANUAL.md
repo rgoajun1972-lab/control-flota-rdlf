@@ -6,6 +6,8 @@ Aplicación web para administrar la flota de móviles de la concesión: titulare
 - **Acceso:** no requiere usuario ni contraseña. Cualquiera con el link puede entrar.
 - **Datos:** se guardan en línea; se ven iguales desde cualquier computador o celular.
 
+![Pantalla principal de Flota Titular](manual-img/01_titular.png)
+
 ---
 
 ## 1. Primer vistazo
@@ -93,6 +95,8 @@ En la columna **Acciones** de cada fila:
 
 Misma lógica que Flota Titular, pero muestra solamente los móviles con **rol = Reemplazo**. Estos son los que después se asignan cuando un titular va a taller.
 
+![Pestaña Flota Reemplazos](manual-img/02_reemplazos.png)
+
 Para dar de alta uno nuevo: botón **+ Nuevo móvil** y en el campo **Rol** elegí **Reemplazo**. Aparece un campo extra **TCT Reemplazo (Sí / No)**.
 
 ---
@@ -100,6 +104,8 @@ Para dar de alta uno nuevo: botón **+ Nuevo móvil** y en el campo **Rol** eleg
 ## 5. Taller (envíos activos)
 
 Muestra los móviles que **están actualmente en taller** (envíos con fecha de salida real sin cargar).
+
+![Pestaña Taller — envíos activos](manual-img/03_taller.png)
 
 ### Crear un envío
 
@@ -124,6 +130,8 @@ Las filas con **más de 30 días** en taller se pintan en rojo, para que resalte
 
 Lista completa de envíos a taller (abiertos y cerrados).
 
+![Pestaña Historial con KPIs](manual-img/04_historial.png)
+
 ### KPIs arriba
 
 - Envíos por **Panne**.
@@ -147,6 +155,8 @@ Solo se puede borrar un envío **cerrado** (que tenga fecha de salida real). Si 
 ## 7. Catálogos
 
 Ya explicado en la sección 2. Resumen de lo que podés administrar desde ahí:
+
+![Pestaña Catálogos](manual-img/05_catalogos.png)
 
 - **Áreas** · **Empresas de leasing** · **Marcas** · **Motivos de envío**: listas desplegables de los formularios.
 - **Encargado de Flota**: nombre + cargo del responsable (uno solo; al guardar uno nuevo pisa el anterior).
