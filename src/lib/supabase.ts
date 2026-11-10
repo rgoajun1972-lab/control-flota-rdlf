@@ -149,11 +149,12 @@ export async function eliminarCatalogo(id: number) {
 	return await supabase.from('catalogos').delete().eq('id', id);
 }
 
-// Si la BD tiene valores para ese tipo se usan SOLO los de BD (el usuario
-// tomó control). Si está vacía, se usan los defaults del código como fallback.
-export function combinarCatalogo(defaults: string[], extras: Catalogo[]): string[] {
-	const valores = extras.length > 0 ? extras.map((e) => e.valor) : defaults;
-	return Array.from(new Set(valores)).sort((a, b) => a.localeCompare(b, 'es'));
+// Devuelve los valores cargados en BD ordenados alfabéticamente.
+// El parámetro `defaults` se conserva por compatibilidad pero ya no se usa:
+// si no hay valores, el formulario queda vacío (eliminado = para siempre).
+export function combinarCatalogo(_defaults: string[], extras: Catalogo[]): string[] {
+	return Array.from(new Set(extras.map((e) => e.valor)))
+		.sort((a, b) => a.localeCompare(b, 'es'));
 }
 
 // Inserta los defaults en la tabla ignorando los que ya estén (UNIQUE tipo,valor)

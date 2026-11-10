@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import {
 		CATALOGOS, listarCatalogo, agregarCatalogo, editarCatalogo, eliminarCatalogo,
-		sembrarCatalogoPorDefecto, type TipoCatalogo, type Catalogo,
+		type TipoCatalogo, type Catalogo,
 		obtenerEncargadoActual, guardarEncargado, eliminarEncargado
 	} from '#lib/supabase';
 
@@ -29,11 +29,6 @@
 
 	let cfg = $derived(CATALOGOS.find((c) => c.tipo === pestana));
 	let esEncargado = $derived(pestana === 'encargado');
-	let faltantesPorDefecto = $derived(() => {
-		if (!cfg) return [];
-		const actuales = new Set(extras.map((e) => e.valor));
-		return cfg.defaults.filter((d) => !actuales.has(d));
-	});
 
 	async function recargar() {
 		cargando = true;
@@ -100,17 +95,6 @@
 		if (res.error) { mensaje = { tipo: 'err', texto: res.error.message }; return; }
 		mensaje = { tipo: 'ok', texto: `"${original}" → "${v}".` };
 		cancelarEdicion();
-		await recargar();
-	}
-
-	async function importarPorDefecto() {
-		const faltan = faltantesPorDefecto();
-		if (!faltan.length) { mensaje = { tipo: 'ok', texto: 'Ya están todos los valores por defecto.' }; return; }
-		guardando = true;
-		const res = await sembrarCatalogoPorDefecto(pestana as TipoCatalogo, faltan);
-		guardando = false;
-		if (res.error) { mensaje = { tipo: 'err', texto: res.error.message }; return; }
-		mensaje = { tipo: 'ok', texto: `${faltan.length} valor(es) importado(s).` };
 		await recargar();
 	}
 
@@ -220,17 +204,6 @@
 					Valores de {cfg.etiqueta} ({extras.length})
 				</h3>
 				<div class="flex items-center gap-2">
-					{#if faltantesPorDefecto().length > 0}
-						<button
-							type="button"
-							onclick={importarPorDefecto}
-							disabled={guardando}
-							class="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-							title="Carga en la base los valores por defecto que aún no están en tu lista"
-						>
-							↓ Importar {faltantesPorDefecto().length} por defecto
-						</button>
-					{/if}
 					<button
 						type="button"
 						onclick={() => { agregando = !agregando; nuevo = ''; mensaje = null; }}
@@ -276,18 +249,10 @@
 			{#if cargando}
 				<div class="p-10 text-center text-sm text-slate-500 dark:text-slate-400">Cargando…</div>
 			{:else if extras.length === 0}
-				<div class="space-y-3 p-10 text-center">
+				<div class="p-10 text-center">
 					<p class="text-sm text-slate-500 dark:text-slate-400">
-						La lista está vacía. Mientras tanto los formularios usan los valores que
-						trae el programa por defecto ({cfg.defaults.length}).
+						La lista está vacía. Usá <strong>+ Agregar valor</strong> para cargar opciones.
 					</p>
-					<button
-						onclick={importarPorDefecto}
-						disabled={guardando}
-						class="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 disabled:opacity-50"
-					>
-						↓ Importar valores por defecto
-					</button>
 				</div>
 			{:else}
 				<ul class="divide-y divide-slate-100 dark:divide-slate-800">
