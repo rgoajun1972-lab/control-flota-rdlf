@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { supabase, diasEntre, formatFechaDMY, parseFecha,
 		TIPOS_ENVIO, type EnvioTaller, type Movil } from '#lib/supabase';
+	import { exportarExcel } from '#lib/excel';
 	import ModalEnvio from '#lib/components/ModalEnvio.svelte';
 
 	type EnvioExtendido = EnvioTaller & {
@@ -54,6 +55,26 @@
 		cargar();
 	}
 
+	function exportar() {
+		const filas = filtrados.map((e) => {
+			const dias = diasEntre(e.fecha_ingreso, null) ?? 0;
+			return {
+				Móvil: e.moviles?.patente ?? `#${e.movil_id}`,
+				'Marca · Modelo': [e.moviles?.marca, e.moviles?.modelo].filter(Boolean).join(' '),
+				Taller: e.taller,
+				Tipo: e.tipo ?? '',
+				Motivo: e.motivo ?? '',
+				'F. envío': formatFechaDMY(e.fecha_ingreso),
+				'Días en taller': dias,
+				Reemplazo: e.reemplazo?.patente ?? '',
+				'Llegada reemplazo': formatFechaDMY(e.reemplazo_fecha_llegada),
+				'TCT reemplazo': e.reemplazo_tct ?? '',
+				Observaciones: e.observaciones ?? ''
+			};
+		});
+		exportarExcel(filas, 'Taller_envios_activos', 'Taller');
+	}
+
 	async function eliminarEnvio(e: EnvioExtendido) {
 		if (!confirm(`¿Eliminar este envío?\n\nMóvil ${e.moviles?.patente}, enviado el ${formatFechaDMY(e.fecha_ingreso)}.`))
 			return;
@@ -92,6 +113,20 @@
 				{#each TIPOS_ENVIO as t (t)}<option value={t}>{t}</option>{/each}
 			</select>
 		</label>
+		<button
+			onclick={exportar}
+			disabled={filtrados.length === 0}
+			title="Descargar la lista filtrada como Excel"
+			class="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+				fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+				<polyline points="7 10 12 15 17 10"/>
+				<line x1="12" y1="15" x2="12" y2="3"/>
+			</svg>
+			Excel
+		</button>
 		<span class="ml-auto text-sm text-slate-500 dark:text-slate-400">
 			{filtrados.length} envío{filtrados.length === 1 ? '' : 's'} activo{filtrados.length === 1 ? '' : 's'}
 		</span>

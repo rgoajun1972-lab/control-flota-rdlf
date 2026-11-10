@@ -5,6 +5,7 @@
 		listarCatalogo, combinarCatalogo,
 		formatFechaDMY, type Movil
 	} from '#lib/supabase';
+	import { exportarExcel } from '#lib/excel';
 	import ModalMovil from './ModalMovil.svelte';
 
 	let AREAS = $state<string[]>(AREAS_DEFAULT);
@@ -52,6 +53,27 @@
 	function abrirEdicion(m: Movil | null) {
 		editando = m;
 		modalAbierto = true;
+	}
+
+	function exportar() {
+		const filas = filtrados.map((m) => ({
+			Patente: m.patente,
+			Área: m.area ?? '',
+			Marca: m.marca ?? '',
+			Modelo: m.modelo ?? '',
+			Año: m.anio ?? '',
+			Color: m.color ?? '',
+			Leasing: m.leasing ?? '',
+			Rol: m.rol ?? '',
+			Responsable: m.responsable ?? '',
+			Chevron: m.chevron ?? '',
+			TCT: m.tct ?? '',
+			'Fin Leasing': formatFechaDMY(m.fecha_alta),
+			Estado: m.estado,
+			Observaciones: m.observaciones ?? ''
+		}));
+		const nombre = modo === 'reemplazos' ? 'Flota_Reemplazos' : 'Flota_Titular';
+		exportarExcel(filas, nombre, modo === 'reemplazos' ? 'Reemplazos' : 'Titulares');
 	}
 
 	async function eliminar(m: Movil) {
@@ -116,6 +138,20 @@
 			<option value="">Leasing: todos</option>
 			{#each LEASINGS as l (l)}<option value={l}>{l}</option>{/each}
 		</select>
+		<button
+			onclick={exportar}
+			disabled={filtrados.length === 0}
+			title="Descargar la lista filtrada como Excel"
+			class="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+				fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+				<polyline points="7 10 12 15 17 10"/>
+				<line x1="12" y1="15" x2="12" y2="3"/>
+			</svg>
+			Excel
+		</button>
 	</div>
 
 	{#if cargando}

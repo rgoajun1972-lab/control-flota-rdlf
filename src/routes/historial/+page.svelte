@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { supabase, diasEntre, formatFechaDMY, TIPOS_ENVIO,
 		type EnvioTaller } from '#lib/supabase';
+	import { exportarExcel } from '#lib/excel';
 
 	type Row = EnvioTaller & {
 		moviles?: { patente: string; marca?: string; modelo?: string; estado: string };
@@ -78,6 +79,28 @@
 			mov: movsDistintos
 		};
 	});
+
+	function exportar() {
+		const filas = filtrados.map((r) => {
+			const dias = diasEntre(r.fecha_ingreso, r.fecha_salida_real);
+			const abierto = !r.fecha_salida_real;
+			return {
+				'#': r.id ?? '',
+				Móvil: r.moviles?.patente ?? `#${r.movil_id}`,
+				Taller: r.taller,
+				Tipo: r.tipo ?? '',
+				Motivo: r.motivo ?? '',
+				Ingreso: formatFechaDMY(r.fecha_ingreso),
+				Salida: formatFechaDMY(r.fecha_salida_real),
+				Días: dias ?? '',
+				Reemplazo: r.reemplazo?.patente ?? '',
+				'Estado envío': abierto ? 'En taller' : 'Cerrado',
+				'Estado móvil': r.moviles?.estado ?? '',
+				Observaciones: r.observaciones ?? ''
+			};
+		});
+		exportarExcel(filas, 'Historial_envios_taller', 'Historial');
+	}
 
 	async function eliminar(r: Row) {
 		if (!r.fecha_salida_real) {
@@ -160,6 +183,20 @@
 		<input type="search" bind:value={q}
 			placeholder="Buscar…"
 			class="flex-1 min-w-40 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100" />
+		<button
+			onclick={exportar}
+			disabled={filtrados.length === 0}
+			title="Descargar la lista filtrada como Excel"
+			class="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+				fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+				<polyline points="7 10 12 15 17 10"/>
+				<line x1="12" y1="15" x2="12" y2="3"/>
+			</svg>
+			Excel
+		</button>
 	</div>
 
 	{#if cargando}
