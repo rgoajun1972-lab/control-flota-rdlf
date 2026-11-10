@@ -136,10 +136,10 @@
 				<thead class="bg-slate-700 text-[11px] font-bold text-white uppercase tracking-wide dark:bg-slate-950 dark:text-slate-100">
 					<tr>
 						<th class="px-1.5 py-2.5 text-center w-20 whitespace-nowrap">Patente</th>
-						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Área</th>
+						<th class="px-1.5 py-2.5 text-center w-32 whitespace-nowrap">Área</th>
 						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Marca · Modelo</th>
 						<th class="px-1.5 py-2.5 text-center w-12 whitespace-nowrap">Año</th>
-						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Leasing</th>
+						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">Leasing</th>
 						<th class="px-1.5 py-2.5 text-center whitespace-nowrap">Responsable</th>
 						<th class="px-1.5 py-2.5 text-center w-20 whitespace-nowrap">Chevron</th>
 						<th class="px-1.5 py-2.5 text-center w-24 whitespace-nowrap">Fin Leasing</th>
