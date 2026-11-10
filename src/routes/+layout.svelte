@@ -117,7 +117,7 @@
 			</nav>
 			<div class="order-2 ml-auto flex flex-col items-end gap-1 sm:order-3">
 				<span class="text-[10px] text-slate-500 dark:text-slate-400">
-					Elaborado por: <span class="font-semibold text-slate-600 dark:text-slate-300">René Orellana</span>
+					Elaborado por: <span class="font-semibold text-slate-600 dark:text-slate-300">René Orellana</span> · 2026
 				</span>
 				<div class="flex items-center gap-2">
 				<a
